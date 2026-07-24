@@ -263,6 +263,11 @@ if (-not $dispatched) {
     Write-Host "  ⚠️ No agent CLI found." -ForegroundColor Yellow
     Write-Host "  Install one of: agy, claude, codex, openclaw, hermes, ollama" -ForegroundColor Yellow
     Write-Host ""
-    Write-Host "  Fallback — copy this prompt:" -ForegroundColor DarkGray
+    Write-Host "  🧠 FALLBACK MODE:" -ForegroundColor Cyan
+    Write-Host "  Go and paste the prompt below into any AI you have (ChatGPT, Claude, Gemini, IDE)." -ForegroundColor White
+    Write-Host "  The AI will instantly understand the God-Level architecture, teach you all about it, and show you exactly how to use it!" -ForegroundColor White
+    Write-Host ""
+    Write-Host "  --- COPY BELOW THIS LINE ---" -ForegroundColor DarkGray
     Write-Host $FullPrompt
+    Write-Host "  ----------------------------" -ForegroundColor DarkGray
 }
