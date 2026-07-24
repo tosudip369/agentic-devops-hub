@@ -1,53 +1,64 @@
-# How to Use the Agentic DevOps Hub
+# How to Use the Agentic DevOps Hub v3.0
 
-This guide tells you exactly what commands to type to start using the Hub right now, whether you want full background autonomy or manual control via the Antigravity CLI.
+This guide tells you exactly what commands to type to start using the Hub right now. With v3.0, everything revolves around the Universal Builder script.
 
-## 1. The Autonomous "Hands-Free" Mode
-If you want the Hub to watch your code and fix bugs automatically while you sleep or work, you start the **Observer**.
+## The Magic Wrapper: `use-agentic-ai.ps1`
 
-**In your terminal, run:**
-```bash
-# From inside the agentic-devops-hub directory
-bash bin/observer.sh --start
+You no longer need to call individual bash scripts. Use the PowerShell wrapper from anywhere in your workspace.
+
+### 1. Auto-Remediation Mode (The True Autonomy)
+If you just pulled code that is broken, or want to clean up an entire repository instantly:
+
+```powershell
+.\bin\use-agentic-ai.ps1 -Mode auto
 ```
-*What happens:* It runs continuously in the background. If it detects a syntax error or a failing test in your watched projects, it automatically spawns `remediate.sh` in an isolated branch to fix it.
+**What happens:** 
+1. It scans your current directory for Bash, Python, or JSON errors.
+2. For each error, it queries the **Neural Memory Engine**.
+3. It spawns the best available local agent (`agy`, `claude`, `codex`, `ollama`) to fix the file in an isolated branch.
+4. It locally validates the fix and commits it automatically.
+5. It exits gracefully when all errors are resolved.
 
-## 2. Manual Trigger via Antigravity CLI (`agy`)
-If you don't want the background watchdog, but you just encountered an error in your project and want to invoke the Hub's "Neural Remediator" instantly, use the Antigravity CLI.
+### 2. Manual Build / Fix Modes
+To command the AI while enforcing the **God-Level Rules** (Elon Musk's 5-Step Algorithm, ClearCode, Ephemeral Branches, and Subagent Delegation):
 
-**To trigger a surgical fix via the Hub's remediation script:**
-```bash
-# From inside the agentic-devops-hub directory
-bash bin/remediate.sh "/path/to/your/broken/project/file.py"
+```powershell
+# Build a new feature
+.\bin\use-agentic-ai.ps1 "Build me a new REST API for the user authentication flow."
+
+# Surgically fix a specific bug without refactoring unrelated code
+.\bin\use-agentic-ai.ps1 -Mode fix "Fix the auth token expiry bug in middleware.ts"
 ```
-*What happens:* It branches your code, runs the `agy` agent to fix it using strict ClearCode rules, and prepares a Pull Request.
+**What happens:** The script dynamically injects your Git status, your GitHub Remote URL, and any `SPEC.md` rules into the prompt before passing it to the AI, giving it total context.
 
-**To use Antigravity directly in your project folder:**
-If you just want the agent to fix your current directory using standard Antigravity commands, simply navigate to your broken project and type:
-```bash
-agy "Fix the syntax errors and failing tests in this directory. Review the logs, apply the fix, and do not break O(1) complexity."
+### 3. The Continuous Watchdog Mode
+If you want the Hub to guard your projects in the background while you sleep or work:
+
+```powershell
+.\bin\use-agentic-ai.ps1 -Mode observe
 ```
+**What happens:** It runs continuously. It checks every directory listed in `projects.conf`. If it detects an error, it spawns a remediation agent automatically in the background.
 
-## 3. How to Connect a New Project
-To tell the Hub to watch a brand new project (a new app, software, or script):
-1. Open `bin/observer.sh`.
-2. Add your new project's absolute path to the monitoring list (e.g., `/Users/you/workspace/my-new-app`).
-3. Ensure your new project has tests and a linter.
-4. Restart `bash bin/observer.sh --start`.
+### 4. Status Dashboard
+To check the health of your Agentic Hub:
+
+```powershell
+.\bin\use-agentic-ai.ps1 -Mode status
+```
+**What happens:** Displays your active Git branch, detected AI agents, the number of successful fixes stored in Neural Memory, and the number of projects currently monitored.
+
+## Connecting New Projects
+To tell the continuous Watchdog to monitor a brand new project:
+1. Open `projects.conf`.
+2. Add your new project's absolute path on a new line (e.g., `C:\Users\you\workspace\my-new-app`).
+3. Run `.\bin\use-agentic-ai.ps1 -Mode observe`.
+
+## The Elon Musk 5-Step Algorithm (Under the Hood)
+Whenever you run this tool, the AI is literally forced to obey this sequence before writing code:
+1. Question requirements.
+2. Delete unnecessary parts.
+3. Simplify and optimize.
+4. Accelerate cycle time.
+5. Automate.
 
 You are now running a God-Level orchestration hub!
-
-## 4. The Magic Keyword: `use-agentic-ai`
-To strictly enforce this entire architecture across any project without manually setting up the scripts every time, use the universal keyword **`use-agentic-ai`** in your prompts or IDEs.
-
-Whenever you type:
-> *"use-agentic-ai to build this feature"* or *"use-agentic-ai to fix this bug"*
-
-Your AI tools (like Antigravity CLI, VS Code, or Claude Code) are instructed to **strictly** adhere to the Agentic DevOps Hub blueprint:
-1. They must use the Neural Error Memory to avoid past mistakes.
-2. They must enforce "ClearCode" rules (O(1) lookups, zero deep nesting, one-thing functions).
-3. They must branch their work ephemerally (like `treehouse`).
-4. They must prepare the code for the strict `no-mistakes` validation pipeline.
-
-**How to use it today:** 
-Just add `use-agentic-ai` at the beginning or end of your prompt in the Antigravity CLI or IDE. The system knows exactly what architectural standards to apply.
