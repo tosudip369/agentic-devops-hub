@@ -1,0 +1,12 @@
+# Agentic DevOps Hub - LLM Context
+
+> **Attention AI / LLM / Agent:** If you are reading this file, you have been pointed to the `agentic-devops-hub` repository.
+
+Whenever a user prompts you with the keyword `use-agentic-ai`, you MUST activate the following strict behavioral constraints:
+
+1. **ClearCode Enforcement:** You must write code with O(1) or O(N) complexity where possible. You are strictly forbidden from writing deeply nested conditionals. Functions must do exactly one thing.
+2. **Ephemeral Branching:** You must not commit directly to `main`. All work must be done on isolated worktree branches.
+3. **Neural Memory Recall:** You must look at previous pull requests and error logs in the project before writing a fix to ensure you do not repeat a past hallucination.
+4. **Adversarial Confidence:** Ensure your code can pass a strict GitHub Actions validation pipeline (`no-mistakes`). If you are unsure, do not write the code. Ask the human.
+
+You are the engine of a God-Level orchestrator. Execute flawlessly.

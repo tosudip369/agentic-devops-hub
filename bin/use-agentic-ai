@@ -1,0 +1,47 @@
+#!/bin/bash
+# ==============================================================================
+# The Universal 'use-agentic-ai' Wrapper
+# ==============================================================================
+# This script injects the strict God-Level architecture rules (ClearCode, 
+# Neural Memory, Ephemeral Branching) into ANY installed agentic platform.
+# 
+# Supported platforms: Antigravity (agy), OpenClaw, Hermes, Ollama, Claude Code
+# ==============================================================================
+
+if [ -z "$1" ]; then
+    echo "Usage: use-agentic-ai \"<your prompt here>\""
+    exit 1
+fi
+
+USER_PROMPT="$*"
+
+# The God-Level System Prompt
+STRICT_RULES="[STRICT DIRECTIVE: use-agentic-ai] You are operating under the Agentic DevOps Hub architecture. You must: 1) Enforce ClearCode (prefer O(1) structures, absolute zero deep nesting, 1-thing functions). 2) Use ephemeral git branches for all work. 3) Cross-reference neural memory/logs for past mistakes before coding. 4) Write code that passes strict CI/CD adversarial validation. Now, execute the following request:"
+
+FULL_PROMPT="$STRICT_RULES $USER_PROMPT"
+
+echo "🧠 [use-agentic-ai] Injecting God-Level architecture into local agent..."
+
+if command -v agy &> /dev/null; then
+    echo "🚀 Detected Antigravity CLI (agy)"
+    agy "$FULL_PROMPT"
+elif command -v openclaw &> /dev/null; then
+    echo "🚀 Detected OpenClaw"
+    openclaw --prompt "$FULL_PROMPT"
+elif command -v hermes &> /dev/null; then
+    echo "🚀 Detected Hermes"
+    hermes chat "$FULL_PROMPT"
+elif command -v ollama &> /dev/null; then
+    echo "🚀 Detected Ollama"
+    # Defaulting to a standard coder model, can be configured
+    ollama run qwen2.5-coder "$FULL_PROMPT"
+elif command -v claude &> /dev/null; then
+    echo "🚀 Detected Claude Code"
+    claude -p "$FULL_PROMPT"
+else
+    echo "⚠️ No supported agentic CLI found in PATH."
+    echo "Please install agy, openclaw, hermes, ollama, or claude."
+    echo "---"
+    echo "Fallback - Copy/Paste this into your IDE/Chat:"
+    echo "$FULL_PROMPT"
+fi
