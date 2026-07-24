@@ -1,6 +1,6 @@
-# How to Use the Agentic DevOps Hub v1.0.0
+# How to Use the Agentic DevOps Hub v3.0.1
 
-This guide tells you exactly what commands to type to start using the Hub right now. With v1.0.0, everything revolves around the Universal Builder script.
+This guide tells you exactly what commands to type to start using the Hub right now. With v3.0.1, everything revolves around the Universal Builder script.
 
 ## 🛠️ How to Install Supported AI Agents
 
