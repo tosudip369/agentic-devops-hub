@@ -1,34 +1,116 @@
-name: Validation & Quality Gate
+name: "🛡️ No-Mistakes Validation Gate v2.0"
 
 on:
   pull_request:
-    branches:
-      - main
+    branches: [main]
+
+permissions:
+  contents: read
 
 jobs:
-  validate:
+  syntax-check:
+    name: "🔍 Multi-Language Syntax Validation"
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout Code
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-      - name: Check Bash Syntax
+      - name: "Bash Syntax Check"
         run: |
-          for script in bin/*.sh; do
-            if [ -f "$script" ]; then
-              bash -n "$script"
+          echo "🔍 Checking bash scripts..."
+          errors=0
+          for f in $(find . -name "*.sh" -not -path "./.git/*"); do
+            if ! bash -n "$f" 2>/tmp/err.log; then
+              echo "❌ FAIL: $f"
+              cat /tmp/err.log
+              errors=$((errors + 1))
+            else
+              echo "✅ PASS: $f"
             fi
           done
-        
-      - name: Secret Leak Detection
+          [[ $errors -eq 0 ]] || exit 1
+
+      - name: "Python Syntax Check"
         run: |
-          # A simple grep-based secret leak check for v1.
-          # We look for typical patterns like AKIA... or SECRET_KEY=...
-          # If grep finds anything, it exits with 0 (which means a leak is found).
-          # So we invert the logic: we want the build to fail if a leak IS found.
-          if grep -riE "(AKIA[0-9A-Z]{16}|SECRET_KEY.*=.*)" .; then
-            echo "❌ SECRET LEAK DETECTED! Blocking merge."
+          echo "🔍 Checking Python files..."
+          errors=0
+          for f in $(find . -name "*.py" -not -path "./.git/*" -not -path "./__pycache__/*"); do
+            if ! python3 -m py_compile "$f" 2>/tmp/err.log; then
+              echo "❌ FAIL: $f"
+              cat /tmp/err.log
+              errors=$((errors + 1))
+            else
+              echo "✅ PASS: $f"
+            fi
+          done
+          [[ $errors -eq 0 ]] || exit 1
+
+      - name: "JSON Syntax Check"
+        run: |
+          echo "🔍 Checking JSON files..."
+          errors=0
+          for f in $(find . -name "*.json" -not -path "./.git/*" -not -path "./node_modules/*"); do
+            if ! python3 -c "import json; json.load(open('$f'))" 2>/tmp/err.log; then
+              echo "❌ FAIL: $f"
+              cat /tmp/err.log
+              errors=$((errors + 1))
+            else
+              echo "✅ PASS: $f"
+            fi
+          done
+          [[ $errors -eq 0 ]] || exit 1
+
+  security-scan:
+    name: "🔒 Security & Secret Leak Detection"
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: "Credential Leak Scan"
+        run: |
+          echo "🔒 Scanning for leaked credentials..."
+          PATTERNS="(AKIA[A-Z0-9]{16}|SECRET_KEY|PRIVATE_KEY|password\s*=\s*['\"][^'\"]+['\"]|sk-[a-zA-Z0-9]{32,}|ghp_[a-zA-Z0-9]{36})"
+          if grep -riEn "$PATTERNS" --include="*.sh" --include="*.py" --include="*.js" --include="*.ts" --include="*.json" --include="*.yml" --include="*.yaml" --include="*.env" --include="*.md" . 2>/dev/null | grep -v ".git/"; then
+            echo "❌ POTENTIAL SECRET LEAK DETECTED! Review the above matches."
             exit 1
-          else
-            echo "✅ No obvious secrets detected."
           fi
+          echo "✅ No credential leaks found."
+
+      - name: "Dangerous Pattern Scan"
+        run: |
+          echo "🔒 Scanning for dangerous patterns..."
+          DANGER_PATTERNS="(rm -rf /|eval\(|exec\(.*input|os\.system\(.*input)"
+          if grep -riEn "$DANGER_PATTERNS" --include="*.sh" --include="*.py" --include="*.js" . 2>/dev/null | grep -v ".git/" | grep -v "node_modules/"; then
+            echo "⚠️ Potentially dangerous code patterns found. Review required."
+          fi
+          echo "✅ Security scan complete."
+
+  clearcode-quality:
+    name: "📐 ClearCode Quality Gate"
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: "Nesting Depth Check (Max 4 levels)"
+        run: |
+          echo "📐 Checking for excessive nesting..."
+          MAX_DEPTH=4
+          violations=0
+          for f in $(find . -name "*.sh" -o -name "*.py" -not -path "./.git/*"); do
+            [[ -f "$f" ]] || continue
+            # Count max indent depth (each 4 spaces = 1 level)
+            max_indent=$(awk '{ match($0, /^[[:space:]]*/); printf "%d\n", RLENGTH/4 }' "$f" | sort -rn | head -1)
+            if [[ $max_indent -gt $MAX_DEPTH ]]; then
+              echo "⚠️ Deep nesting ($max_indent levels): $f"
+              violations=$((violations + 1))
+            fi
+          done
+          echo "📐 Nesting check complete. $violations file(s) flagged."
+
+      - name: "Long Function Check (Max 50 lines)"
+        run: |
+          echo "📐 Checking for oversized functions..."
+          for f in $(find . -name "*.sh" -not -path "./.git/*"); do
+            [[ -f "$f" ]] || continue
+            awk '/^[a-zA-Z_]+\(\)/{name=$1; start=NR} /^}/{if(start && NR-start>50) print "⚠️ Long function (" NR-start " lines): " name " in " FILENAME; start=0}' "$f"
+          done
+          echo "📐 Function length check complete."
