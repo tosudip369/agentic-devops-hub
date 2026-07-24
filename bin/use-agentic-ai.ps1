@@ -19,9 +19,9 @@ param(
 
 $UserPrompt = $PromptArgs -join " "
 $HubRoot = Split-Path -Parent (Split-Path -Parent $MyInvocation.MyCommand.Path)
-$MemoryEngine = Join-Path $HubRoot "bin" "memory-engine.sh"
-$ObserverScript = Join-Path $HubRoot "bin" "observer.sh"
-$RemediateScript = Join-Path $HubRoot "bin" "remediate.sh"
+$MemoryEngine = Join-Path (Join-Path $HubRoot "bin") "memory-engine.sh"
+$ObserverScript = Join-Path (Join-Path $HubRoot "bin") "observer.sh"
+$RemediateScript = Join-Path (Join-Path $HubRoot "bin") "remediate.sh"
 
 # ── HELP ──────────────────────────────────────────────────────────────────────
 if ([string]::IsNullOrWhiteSpace($UserPrompt) -and $Mode -eq "build") {
