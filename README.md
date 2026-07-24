@@ -67,3 +67,8 @@ This repository is designed to be extensible and compatible with the "god-level"
 *   **[GitHub Agentic Workflows](https://github.com/github/agentic-workflows)**: Bringing autonomous agents directly into GitHub Actions.
 *   **[Agent Skills](https://github.com/addyosmani/agent-skills)**: A curated set of production-grade engineering skills for agent use.
 *   **[Agent Orchestrator](https://github.com/AgentWrapper/agent-orchestrator)**: Manage fleets of parallel coding agents with automated CI/CD feedback loops.
+
+---
+
+> **📖 Want to build the ultimate terminal-centric workspace?**
+> Check out the [Workflow & Core Tool Stack Roadmap](WORKFLOW.md) for a complete guide on scaling your setup with tmux, Neovim, treehouse, firstmate, and no-mistakes.
