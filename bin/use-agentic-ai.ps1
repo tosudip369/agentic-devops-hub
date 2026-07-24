@@ -216,9 +216,19 @@ if (Get-Command "git" -ErrorAction SilentlyContinue) {
         if (-not [string]::IsNullOrWhiteSpace($RemoteUrl)) {
             $GitContext += "`n`n[GITHUB REPOSITORY]`nRepo: $RemoteUrl"
         }
+        
+        # MASSIVE IMPROVEMENT 1: The Project File Map
+        # Instantly gives the AI the architectural layout of the project without it having to guess.
+        $ProjectMap = (git ls-files | Select-Object -First 40) -join "`n"
+        if (-not [string]::IsNullOrWhiteSpace($ProjectMap)) {
+            $GitContext += "`n`n[PROJECT ARCHITECTURE MAP]`n$ProjectMap"
+        }
+
+        # MASSIVE IMPROVEMENT 2: Git Diff (What you just did)
         $GitStatus = git status --short
         if (-not [string]::IsNullOrWhiteSpace($GitStatus)) {
-            $GitContext += "`n`n[MODIFIED FILES]`n$GitStatus"
+            $GitDiff = (git diff | Select-Object -First 50) -join "`n"
+            $GitContext += "`n`n[MODIFIED FILES]`n$GitStatus`n`n[RECENT CODE CHANGES]`n$GitDiff"
         }
     }
 }
@@ -261,7 +271,11 @@ foreach ($agent in $agentPriority) {
 
 if (-not $dispatched) {
     Write-Host "  ⚠️ No agent CLI found." -ForegroundColor Yellow
-    Write-Host "  Install one of: agy, claude, codex, openclaw, hermes, ollama" -ForegroundColor Yellow
+    Write-Host "  To unlock full autonomy, install one of these free/popular agents:" -ForegroundColor White
+    Write-Host "    - Antigravity: Built-in to this IDE / Google ecosystem" -ForegroundColor DarkGray
+    Write-Host "    - Claude Code: npm install -g @anthropic-ai/claude-code" -ForegroundColor DarkGray
+    Write-Host "    - Ollama (Local/Free): https://ollama.com/download" -ForegroundColor DarkGray
+    Write-Host "    - OpenClaw / Hermes: See their respective GitHub repos" -ForegroundColor DarkGray
     Write-Host ""
     Write-Host "  🧠 FALLBACK MODE:" -ForegroundColor Cyan
     Write-Host "  Go and paste the prompt below into any AI you have (ChatGPT, Claude, Gemini, IDE)." -ForegroundColor White
