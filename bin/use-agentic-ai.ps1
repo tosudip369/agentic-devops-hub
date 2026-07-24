@@ -187,7 +187,7 @@ if ($Mode -eq "auto") {
 
 # ── MODES: BUILD / FIX ───────────────────────────────────────────────────────
 
-# 1. BASE RULES + SUBAGENT DELEGATION
+# 1. BASE RULES + SUBAGENT DELEGATION + 5-STEP ALGORITHM
 $BaseRules = @"
 [STRICT DIRECTIVE: use-agentic-ai v3.0]
 You are operating under the Agentic DevOps Hub architecture.
@@ -205,6 +205,14 @@ WORKFLOW RULES:
 
 AUTONOMOUS SUBAGENT DELEGATION:
 - You are authorized to spawn specialized subagents (code-reviewer, security-auditor, test-engineer) to break down complex tasks, review your code, or conduct parallel research before returning the final result.
+
+[CORE ENGINEERING ALGORITHM]
+Before writing code or executing tasks, you MUST apply this 5-Step Algorithm to the user's request:
+1. QUESTION EVERY REQUIREMENT: Identify exactly who made the requirement. Question it, even if it came from the user. Make the requirements less dumb.
+2. DELETE: Delete any part or process you can. If you don't end up adding back 10% of what you deleted, you didn't delete enough.
+3. SIMPLIFY & OPTIMIZE: Only do this AFTER step 2. Do not optimize a process that should not exist.
+4. ACCELERATE CYCLE TIME: Speed up the process, but only after steps 1-3.
+5. AUTOMATE: This comes absolute last. Shaken out all bugs and deleted unnecessary steps before automating.
 "@
 
 if ($Mode -eq "fix") {
