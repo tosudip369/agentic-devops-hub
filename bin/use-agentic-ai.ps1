@@ -15,8 +15,14 @@ if ([string]::IsNullOrWhiteSpace($UserPrompt)) {
     exit 1
 }
 
-# 1. BASE GUARDRAILS
-$BaseRules = "[STRICT DIRECTIVE: use-agentic-ai] You are operating under the Agentic DevOps Hub architecture. You must: 1) Enforce ClearCode. 2) Use ephemeral branches. 3) Cross-reference neural memory. 4) Write code that passes strict CI/CD."
+# 1. BASE GUARDRAILS & SUBAGENT DELEGATION
+$BaseRules = "[STRICT DIRECTIVE: use-agentic-ai] You are operating under the Agentic DevOps Hub architecture. You must: 
+1) Enforce ClearCode. 
+2) Use ephemeral branches. 
+3) Cross-reference neural memory. 
+4) Write code that passes strict CI/CD.
+5) AUTONOMOUS SUBAGENT DELEGATION: You are authorized and heavily encouraged to automatically spawn specialized subagents (e.g., code-reviewer, security-auditor, or custom agents via your subagent tools) to break down complex tasks, review your own code, or conduct research in parallel before returning the final result to the user."
+
 
 # 2. DYNAMIC RULES (Read from SPEC.md or .agentrules if they exist)
 $DynamicRules = ""
