@@ -36,3 +36,18 @@ To tell the Hub to watch a brand new project (a new app, software, or script):
 4. Restart `bash bin/observer.sh --start`.
 
 You are now running a God-Level orchestration hub!
+
+## 4. The Magic Keyword: `use-agentic-ai`
+To strictly enforce this entire architecture across any project without manually setting up the scripts every time, use the universal keyword **`use-agentic-ai`** in your prompts or IDEs.
+
+Whenever you type:
+> *"use-agentic-ai to build this feature"* or *"use-agentic-ai to fix this bug"*
+
+Your AI tools (like Antigravity CLI, VS Code, or Claude Code) are instructed to **strictly** adhere to the Agentic DevOps Hub blueprint:
+1. They must use the Neural Error Memory to avoid past mistakes.
+2. They must enforce "ClearCode" rules (O(1) lookups, zero deep nesting, one-thing functions).
+3. They must branch their work ephemerally (like `treehouse`).
+4. They must prepare the code for the strict `no-mistakes` validation pipeline.
+
+**How to use it today:** 
+Just add `use-agentic-ai` at the beginning or end of your prompt in the Antigravity CLI or IDE. The system knows exactly what architectural standards to apply.
