@@ -1,64 +1,46 @@
 #!/bin/bash
 # ==============================================================================
-# All-Seeing DevOps Observer (Inspired by agenticsorg/devops)
-# ==============================================================================
-# This script monitors system health, repo states, and incoming issues.
-# When it detects an anomaly (e.g., failing tests, broken build, new bug issue),
-# it autonomously dispatches a `firstmate` crewmate to investigate and fix it.
+# All-Seeing DevOps Observer
 # ==============================================================================
 
 set -euo pipefail
 
-# Configuration
-WORKSPACE_DIR="$HOME/workspace"
-LOG_FILE="$WORKSPACE_DIR/agentic-devops-hub/observer.log"
+WORKSPACE_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+LOG_FILE="observer.log"
+REMEDIATE_SCRIPT="$WORKSPACE_DIR/bin/remediate.sh"
 
 log() {
     echo "[$(date +'%Y-%m-%dT%H:%M:%S%z')] $1" | tee -a "$LOG_FILE"
 }
 
 check_health() {
-    # Conceptual DevOps Health Check
-    # In a real environment, this would ping AWS endpoints, check Prometheus,
-    # or look at GitHub Actions API for failing CI runs.
+    log "👁️ All-Seeing Eye: Scanning workspace health (bash syntax)..."
     
-    # For this local setup, let's look for any recently failed tests or
-    # dirty git states in our managed projects.
-    
-    log "👁️ All-Seeing Eye: Scanning workspace health..."
-    
-    # Example: Check if no-mistakes gate has rejected any recent commits
-    # Example: Check if gnhf overnight runs encountered consecutive failures
-    
-    # Simulated anomaly detection
-    local anomaly_detected=false
-    
-    if [ "$anomaly_detected" = true ]; then
-        log "⚠️ Anomaly detected! Triggering self-healing workflow..."
-        dispatch_firstmate_remediation "Fix failing CI in no-mistakes"
-    else
-        log "✅ Workspace is healthy. All systems nominal."
-    fi
-}
+    for script in "$WORKSPACE_DIR"/bin/*.sh; do
+        if ! bash -n "$script" 2>/tmp/bash_syntax_error.log; then
+            local error_msg
+            error_msg=$(cat /tmp/bash_syntax_error.log)
+            log "⚠️ Anomaly detected! Syntax error in $script:"
+            log "$error_msg"
+            
+            if [[ -f "$REMEDIATE_SCRIPT" ]]; then
+                log "🚀 Triggering remediation for $script..."
+                bash "$REMEDIATE_SCRIPT" "$script" "$error_msg"
+            else
+                log "❌ Remediation script not found at $REMEDIATE_SCRIPT"
+            fi
+            return
+        fi
+    done
 
-dispatch_firstmate_remediation() {
-    local task_description="$1"
-    
-    log "🚢 Dispatching Firstmate crew to address: $task_description"
-    
-    # In reality, you would interface with firstmate's backlog or directly spawn a scout
-    # Example:
-    # cd "$WORKSPACE_DIR/firstmate" && ./bin/fm-spawn.sh --profile scout --prompt "$task_description"
-    
-    log "Crew dispatched to a treehouse worktree. Awaiting PR via no-mistakes."
+    log "✅ Workspace is healthy. All systems nominal."
 }
 
 if [[ "${1:-}" == "--start" ]]; then
     log "Starting Autonomous DevOps Observer..."
     while true; do
         check_health
-        log "Sleeping for 5 minutes..."
-        sleep 300
+        sleep 60
     done
 else
     check_health
