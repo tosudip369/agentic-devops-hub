@@ -217,14 +217,11 @@ if (Get-Command "git" -ErrorAction SilentlyContinue) {
             $GitContext += "`n`n[GITHUB REPOSITORY]`nRepo: $RemoteUrl"
         }
         
-        # MASSIVE IMPROVEMENT 1: The Project File Map
-        # Instantly gives the AI the architectural layout of the project without it having to guess.
         $ProjectMap = (git ls-files | Select-Object -First 40) -join "`n"
         if (-not [string]::IsNullOrWhiteSpace($ProjectMap)) {
             $GitContext += "`n`n[PROJECT ARCHITECTURE MAP]`n$ProjectMap"
         }
 
-        # MASSIVE IMPROVEMENT 2: Git Diff (What you just did)
         $GitStatus = git status --short
         if (-not [string]::IsNullOrWhiteSpace($GitStatus)) {
             $GitDiff = (git diff | Select-Object -First 50) -join "`n"
@@ -233,8 +230,20 @@ if (Get-Command "git" -ErrorAction SilentlyContinue) {
     }
 }
 
+# 4. NEURAL MEMORY INJECTION (MASSIVE IMPROVEMENT)
+# This gives the AI "Long-Term Memory". It reads the 3 most recent bugs it fixed and injects them
+# into the prompt so it never makes the exact same mistake twice.
+$MemoryContext = ""
+$LedgerPath = "$env:USERPROFILE\.agentic\memory\error_ledger.jsonl"
+if (Test-Path $LedgerPath) {
+    $RecentFixes = (Get-Content $LedgerPath -Tail 3) -join "`n"
+    if (-not [string]::IsNullOrWhiteSpace($RecentFixes)) {
+        $MemoryContext = "`n`n[NEURAL MEMORY: RECENT SUCCESSFUL FIXES]`nLearn from your past actions and do not repeat these errors:`n$RecentFixes"
+    }
+}
+
 # COMBINE
-$FullPrompt = "$BaseRules $DynamicRules $GitContext`n`n[USER REQUEST]`n$UserPrompt"
+$FullPrompt = "$BaseRules $DynamicRules $GitContext $MemoryContext`n`n[USER REQUEST]`n$UserPrompt"
 
 Write-Host ""
 Write-Host "  🧠 [use-agentic-ai v3.0] Dispatching..." -ForegroundColor Cyan
