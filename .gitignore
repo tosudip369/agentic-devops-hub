@@ -1,0 +1,5 @@
+*.log
+.DS_Store
+.agentic/
+node_modules/
+__pycache__/
