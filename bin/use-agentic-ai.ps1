@@ -187,32 +187,13 @@ if ($Mode -eq "auto") {
 
 # ── MODES: BUILD / FIX ───────────────────────────────────────────────────────
 
-# 1. BASE RULES + SUBAGENT DELEGATION + 5-STEP ALGORITHM
+# 1. TOKEN-OPTIMIZED RULES + 5-STEP ALGORITHM
 $BaseRules = @"
-[STRICT DIRECTIVE: use-agentic-ai v3.0]
-You are operating under the Agentic DevOps Hub architecture.
-
-CLEARCODE ENFORCEMENT:
-- Prefer O(1)/O(N) data structures. No O(N²) unless justified.
-- Zero deep nesting. Max 2 levels of indentation.
-- Functions do exactly ONE thing. Name them descriptively.
-- All variables must be self-documenting.
-
-WORKFLOW RULES:
-- Use ephemeral git branches for all work. Never commit to main.
-- Write tests alongside implementation code.
-- Code must pass strict CI/CD adversarial validation.
-
-AUTONOMOUS SUBAGENT DELEGATION:
-- You are authorized to spawn specialized subagents (code-reviewer, security-auditor, test-engineer) to break down complex tasks, review your code, or conduct parallel research before returning the final result.
-
-[CORE ENGINEERING ALGORITHM]
-Before writing code or executing tasks, you MUST apply this 5-Step Algorithm to the user's request:
-1. QUESTION EVERY REQUIREMENT: Identify exactly who made the requirement. Question it, even if it came from the user. Make the requirements less dumb.
-2. DELETE: Delete any part or process you can. If you don't end up adding back 10% of what you deleted, you didn't delete enough.
-3. SIMPLIFY & OPTIMIZE: Only do this AFTER step 2. Do not optimize a process that should not exist.
-4. ACCELERATE CYCLE TIME: Speed up the process, but only after steps 1-3.
-5. AUTOMATE: This comes absolute last. Shaken out all bugs and deleted unnecessary steps before automating.
+[DIR:v3.0] Arch:AgenticDevOpsHub
+Code: O(1)/O(N) pref. Max 2-lvl nest. Single-resp fns. Self-doc vars.
+Flow: Ephemeral branches only. Write tests. Pass strict CI/CD.
+Subagents: Auto-spawn subagents (security-auditor, code-reviewer) for complex/parallel tasks.
+Algo (Strict): 1.Question reqs(make less dumb). 2.Delete parts(>10% added back=good). 3.Simplify/Optimize(after step2). 4.Accelerate cycle. 5.Automate(last).
 "@
 
 if ($Mode -eq "fix") {
