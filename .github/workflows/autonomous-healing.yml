@@ -1,0 +1,39 @@
+name: Autonomous AI Healing
+on:
+  pull_request:
+    types: [opened, synchronize]
+  issues:
+    types: [opened]
+
+jobs:
+  agentic-healing:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+      issues: write
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Environment
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y jq
+
+      - name: Trigger Agentic Auto-Fix Mode
+        # We run the Linux equivalent of the auto-scan logic directly in CI
+        run: |
+          echo "🤖 Triggering Agentic Auto-Scan..."
+          bash bin/observer.sh --scan-once || echo "Scan complete"
+          
+          # If observer found and fixed errors using remediate.sh, commit them
+          if [[ -n $(git status -s) ]]; then
+            git config --global user.name "Agentic DevOps Hub"
+            git config --global user.email "ai@agentic-devops.local"
+            git add .
+            git commit -m "🤖 auto-fix: Neural remediation applied by AI"
+            git push
+          fi
