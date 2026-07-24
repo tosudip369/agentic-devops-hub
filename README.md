@@ -9,24 +9,21 @@ This setup transforms your workspace into a self-healing, autonomous software fa
 ```mermaid
 graph TD
     subgraph "Cloud / GitHub (gh-aw)"
-        GH_AW[gh-aw Markdown Workflows]
+        GH_AW["gh-aw Markdown Workflows"]
         GH_AW --> |Triage & Review| Issues
         GH_AW --> |Security/Lint| PRs
     end
-
     subgraph "All-Seeing Hub (Control Plane)"
-        Observer[DevOps Observer / Self-Healing Loop]
-        Agentics[Agentics DevOps Patterns]
+        Observer["DevOps Observer / Self-Healing Loop"]
+        Agentics["Agentics DevOps Patterns"]
         Observer --> |Monitors Health| Infrastructure
     end
-
     subgraph "Local Execution Fleet"
-        FirstMate[firstmate (Crew Orchestrator)]
-        GNHF[gnhf (Overnight Loop)]
-        Treehouse[treehouse (Worktree Pool)]
-        NoMistakes[no-mistakes (Quality Gate)]
+        FirstMate["firstmate (Crew Orchestrator)"]
+        GNHF["gnhf (Overnight Loop)"]
+        Treehouse["treehouse (Worktree Pool)"]
+        NoMistakes["no-mistakes (Quality Gate)"]
     end
-
     GH_AW -.-> |Dispatches Tasks| FirstMate
     Observer -.-> |Triggers Remediation| FirstMate
     FirstMate --> |Spawns Crew| Treehouse
