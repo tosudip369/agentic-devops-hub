@@ -32,13 +32,20 @@ if (Test-Path "SPEC.md") {
     $DynamicRules += "`n`n[PROJECT SPECIFICATION]`n" + (Get-Content ".agentrules" -Raw)
 }
 
-# 3. GIT CONTEXT INJECTION (Instantly tell the AI what files are modified)
+# 3. GIT CONTEXT INJECTION (Instantly tell the AI what files are modified and the Remote Repo)
 $GitContext = ""
 if (Get-Command "git" -ErrorAction SilentlyContinue) {
     if (Test-Path ".git") {
+        # Get the current remote GitHub URL
+        $RemoteUrl = (git remote get-url origin 2>$null)
+        if (-not [string]::IsNullOrWhiteSpace($RemoteUrl)) {
+            $GitContext += "`n`n[GITHUB REPOSITORY CONTEXT]`nYou are operating inside the repository hosted at: $RemoteUrl `nYou are heavily encouraged to use tools to read the GitHub remote or search the web for this repo if you need broader context, rather than strictly relying on local files."
+        }
+
+        # Get local modifications
         $GitStatus = git status --short
         if (-not [string]::IsNullOrWhiteSpace($GitStatus)) {
-            $GitContext = "`n`n[CURRENT GIT STATUS]`nThe following files are currently modified or untracked:`n$GitStatus`nEnsure you address these files if relevant."
+            $GitContext += "`n`n[CURRENT GIT STATUS]`nThe following files are currently modified or untracked:`n$GitStatus`nEnsure you address these files if relevant."
         }
     }
 }
