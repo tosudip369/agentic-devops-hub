@@ -1,0 +1,34 @@
+name: Validation & Quality Gate
+
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Check Bash Syntax
+        run: |
+          for script in bin/*.sh; do
+            if [ -f "$script" ]; then
+              bash -n "$script"
+            fi
+          done
+        
+      - name: Secret Leak Detection
+        run: |
+          # A simple grep-based secret leak check for v1.
+          # We look for typical patterns like AKIA... or SECRET_KEY=...
+          # If grep finds anything, it exits with 0 (which means a leak is found).
+          # So we invert the logic: we want the build to fail if a leak IS found.
+          if grep -riE "(AKIA[0-9A-Z]{16}|SECRET_KEY.*=.*)" .; then
+            echo "❌ SECRET LEAK DETECTED! Blocking merge."
+            exit 1
+          else
+            echo "✅ No obvious secrets detected."
+          fi
