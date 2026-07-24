@@ -11,6 +11,16 @@ To unlock full autonomy, you need to have at least one AI CLI installed on your 
 *   **Ollama (`ollama`)**: Download from [ollama.com](https://ollama.com/download) for free, local execution.
 *   **OpenClaw (`openclaw`)** & **Hermes (`hermes`)**: See their respective GitHub repositories for installation.
 
+### 🌐 Pro-Tip: Using OpenRouter (Access ANY Model)
+If you don't have a powerful local GPU for Ollama, you can use **OpenRouter** to access frontier models (like Claude 3.5 Sonnet, GPT-4o, or Llama 3) for pennies, directly through CLI agents like OpenClaw or Aider.
+1. Go to [openrouter.ai](https://openrouter.ai/) and create an API key.
+2. Export the key in your terminal: `export OPENROUTER_API_KEY="sk-or-v1-..."` (or add to your Windows Environment Variables).
+3. Configure your CLI agent to use OpenRouter. For example, with OpenClaw:
+   ```bash
+   openclaw --provider openrouter --model anthropic/claude-3.5-sonnet
+   ```
+This allows the Agentic DevOps Hub to orchestrate the smartest models in the world directly from your terminal!
+
 If you don't install any of these, the script will gracefully print a "Fallback Prompt" that you can manually paste into ChatGPT or Claude's web interface!
 
 ---

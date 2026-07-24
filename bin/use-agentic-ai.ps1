@@ -275,7 +275,7 @@ if (-not $dispatched) {
     Write-Host "    - Antigravity: Built-in to this IDE / Google ecosystem" -ForegroundColor DarkGray
     Write-Host "    - Claude Code: npm install -g @anthropic-ai/claude-code" -ForegroundColor DarkGray
     Write-Host "    - Ollama (Local/Free): https://ollama.com/download" -ForegroundColor DarkGray
-    Write-Host "    - OpenClaw / Hermes: See their respective GitHub repos" -ForegroundColor DarkGray
+    Write-Host "    - OpenClaw (Use OpenRouter APIs!): See GitHub to run Claude 3.5/GPT-4o" -ForegroundColor DarkGray
     Write-Host ""
     Write-Host "  🧠 FALLBACK MODE:" -ForegroundColor Cyan
     Write-Host "  Go and paste the prompt below into any AI you have (ChatGPT, Claude, Gemini, IDE)." -ForegroundColor White
