@@ -2,6 +2,19 @@
 
 This guide tells you exactly what commands to type to start using the Hub right now. With v3.0, everything revolves around the Universal Builder script.
 
+## 🛠️ How to Install Supported AI Agents
+
+To unlock full autonomy, you need to have at least one AI CLI installed on your machine. The Hub automatically detects which one you have and uses it.
+
+*   **Antigravity (`agy`)**: Built-in to specific Google / IDE ecosystems.
+*   **Claude Code (`claude`)**: `npm install -g @anthropic-ai/claude-code`
+*   **Ollama (`ollama`)**: Download from [ollama.com](https://ollama.com/download) for free, local execution.
+*   **OpenClaw (`openclaw`)** & **Hermes (`hermes`)**: See their respective GitHub repositories for installation.
+
+If you don't install any of these, the script will gracefully print a "Fallback Prompt" that you can manually paste into ChatGPT or Claude's web interface!
+
+---
+
 ## The Magic Wrapper: `use-agentic-ai.ps1`
 
 You no longer need to call individual bash scripts. Use the PowerShell wrapper from anywhere in your workspace.
