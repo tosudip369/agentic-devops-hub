@@ -76,3 +76,6 @@ This repository is designed to be extensible and compatible with the "god-level"
 > 
 > **🧠 How do we compare to the state-of-the-art?**
 > Read our [ECC Integration & Architecture Comparison](ECC_INTEGRATION.md) to see how we consume tools like ECC to create a god-level macro-orchestrator.
+>
+> **🌍 Want to use this for ALL your future projects?**
+> Read the [Global System Design](SYSTEM_DESIGN.md) to see how to connect this Hub to every piece of software, app, or workflow you ever build.
