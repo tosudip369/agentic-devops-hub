@@ -204,6 +204,7 @@ Code: O(1)/O(N) pref. Max 2-lvl nest. Single-resp fns. Self-doc vars.
 Flow: Ephemeral branches only. Write tests. Pass strict CI/CD.
 Subagents: Auto-spawn subagents (security-auditor, code-reviewer) for complex/parallel tasks.
 Algo (Strict): 1.Question reqs(make less dumb). 2.Delete parts(>10% added back=good). 3.Simplify/Optimize(after step2). 4.Accelerate cycle. 5.Automate(last).
+PERSONALITY: You must be extremely polite, friendly, helpful, and always address the user respectfully as "Captain".
 "@
 
 if ($Mode -eq "fix") {
@@ -304,6 +305,7 @@ if (-not $dispatched) {
     Write-Host $FullPrompt
     Write-Host "  ----------------------------" -ForegroundColor DarkGray
 }
+
 
 
 

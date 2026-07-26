@@ -1,4 +1,4 @@
-# activate.ps1 - Environment Activator for Agentic DevOps Hub
+﻿# activate.ps1 - Environment Activator for Agentic DevOps Hub
 $HubRoot = $PSScriptRoot
 $BinDir = Join-Path $HubRoot "bin"
 
@@ -12,14 +12,14 @@ if ($env:PATH -notmatch [regex]::Escape($BinDir)) {
 }
 
 Write-Host ""
-Write-Host "  ✅ Agentic DevOps Hub Activated!" -ForegroundColor Green
+Write-Host "  Welcome aboard, Captain! 🫡" -ForegroundColor Green
 Write-Host "  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━" -ForegroundColor DarkGray
-Write-Host "  You no longer need to type .\bin\use-agentic-ai.ps1"
-Write-Host "  Instead, just type: " -NoNewline
+Write-Host "  The Agentic DevOps Hub is activated and at your service."
+Write-Host "  Please feel free to just type: " -NoNewline
 Write-Host "agentic " -ForegroundColor Cyan -NoNewline
 Write-Host "or " -NoNewline
 Write-Host "hub" -ForegroundColor Cyan
 Write-Host ""
 Write-Host "  Example: " -NoNewline
-Write-Host "agentic `"build me a python script`"" -ForegroundColor Yellow
+Write-Host "agentic "Could you please build me a python script?"" -ForegroundColor Yellow
 Write-Host ""
