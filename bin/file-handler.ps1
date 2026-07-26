@@ -1,59 +1,30 @@
-# file-handler.ps1 - Core File Management System for Agentic DevOps Hub
-# Provides safe reading, writing, and backup of project files for autonomous agents
-
+﻿# file-handler.ps1 - HFT-Speed Core File Management System
+# Uses native .NET for zero-latency I/O bypassing PowerShell's pipeline overhead
 param (
-    [Parameter(Mandatory=$true)]
-    [ValidateSet("read", "write", "backup", "list")]
-    [string]$Action,
-
-    [Parameter(Mandatory=$true)]
-    [string]$FilePath,
-
+    [Parameter(Mandatory=$true)][ValidateSet("read", "write", "backup", "list")][string]$Action,
+    [Parameter(Mandatory=$true)][string]$FilePath,
     [string]$Content = ""
 )
-
-# Function to safely ensure directory exists
-function Ensure-Directory {
-    param([string]$Path)
-    $dir = Split-Path $Path -Parent
-    if (-not [string]::IsNullOrEmpty($dir) -and -not (Test-Path $dir)) {
-        New-Item -ItemType Directory -Force -Path $dir | Out-Null
-    }
-}
-
 switch ($Action) {
     "read" {
-        if (Test-Path $FilePath) {
-            Get-Content $FilePath -Raw
-        } else {
-            Write-Error "File not found: $FilePath"
-            exit 1
-        }
+        if ([System.IO.File]::Exists($FilePath)) {
+            [System.IO.File]::ReadAllText($FilePath)
+        } else { Write-Error "Not found: $FilePath"; exit 1 }
     }
-    
     "write" {
-        Ensure-Directory $FilePath
-        Set-Content -Path $FilePath -Value $Content -Encoding UTF8
-        Write-Host "✅ Successfully wrote to $FilePath" -ForegroundColor Green
+        $dir = [System.IO.Path]::GetDirectoryName($FilePath)
+        if ($dir -and -not [System.IO.Directory]::Exists($dir)) { [System.IO.Directory]::CreateDirectory($dir) | Out-Null }
+        [System.IO.File]::WriteAllText($FilePath, $Content, [System.Text.Encoding]::UTF8)
+        Write-Host "⚡ HFT-Write: $FilePath" -ForegroundColor Green
     }
-    
     "backup" {
-        if (Test-Path $FilePath) {
-            $timestamp = Get-Date -Format "yyyyMMdd_HHmmss"
-            $backupPath = "$FilePath.$timestamp.bak"
-            Copy-Item $FilePath $backupPath -Force
-            Write-Host "✅ Backup created at $backupPath" -ForegroundColor Cyan
-        } else {
-            Write-Host "⚠️ File does not exist, nothing to backup: $FilePath" -ForegroundColor Yellow
+        if ([System.IO.File]::Exists($FilePath)) {
+            $backupPath = "$FilePath.20260726_074516.bak"
+            [System.IO.File]::Copy($FilePath, $backupPath, $true)
+            Write-Host "⚡ HFT-Backup: $backupPath" -ForegroundColor Cyan
         }
     }
-    
     "list" {
-        if (Test-Path $FilePath) {
-            Get-ChildItem -Path $FilePath -Recurse | Select-Object FullName, Length | Format-Table -AutoSize
-        } else {
-            Write-Error "Directory not found: $FilePath"
-            exit 1
-        }
+        [System.IO.Directory]::EnumerateFiles($FilePath, "*.*", [System.IO.SearchOption]::AllDirectories)
     }
 }

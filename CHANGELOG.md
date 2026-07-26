@@ -1,4 +1,11 @@
-﻿# 4.0.0 (2026-07-26)
+﻿# 5.0.0 (2026-07-26)
+
+### Performance & HFT Enhancements
+* **file-system:** replace Get-Content/Set-Content with native .NET System.IO classes for zero-latency I/O
+* **observer:** implement 500ms memory-level event debouncing using ConcurrentDictionary
+* **observer:** implement Runspace asynchronous dispatch to prevent main thread blocking
+* **cli:** version bump to v5.0.0
+# 4.0.0 (2026-07-26)
 
 ### Breaking Changes & Architecture Overhaul
 * **core:** completely remove observer.sh and emediate.sh bash scripts
@@ -10,7 +17,7 @@
 ### Features
 * **activation:** add global alias activation script (ctivate.ps1) for seamless terminal access
 * **file-system:** implement robust ile-handler.ps1 with safe read/write/backup features for agents
-* **docs:** optimize and interconnect system documentation for v4.0.0 release
+* **docs:** optimize and interconnect system documentation for v5.0.0 release
 # 1.0.0 (2026-07-24)
 
 
@@ -41,6 +48,8 @@
 ### Performance Improvements
 
 * minify system rules to minimize token usage and API costs ([9f185e9](https://github.com/tosudip369/agentic-devops-hub/commit/9f185e95277074f564e351c9c941e9fd6f106819))
+
+
 
 
 

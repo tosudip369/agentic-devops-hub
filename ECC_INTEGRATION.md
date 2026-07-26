@@ -40,3 +40,4 @@ npx ecc-install --profile minimal --target claude
 
 **Conclusion:** ECC gives the AI a sharper brain. `agentic-devops-hub` gives the AI a body, an immune system, and a fleet commander. This combination is the absolute frontier of software engineering.
 
+

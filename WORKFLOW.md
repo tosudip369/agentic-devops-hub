@@ -19,3 +19,4 @@ This document outlines the core tool stack and the roadmap for maintaining a god
 4. **Implementation & Validation (The Pipeline)**: Delegate execution to agents and pipe the output into `no-mistakes`. This automated pipeline ensures quality, tests against the original intent, and manages PR lifecycle so the captain (you) only steps in for high-level judgment.
 5. **Scaling (The Captain's Mindset)**: As volume increases, utilize `treehouse` for parallel worktrees and `firstmate` to oversee multiple concurrent agents, shifting your focus from "writing code" to "product strategy".
 
+
