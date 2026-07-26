@@ -43,7 +43,7 @@ If you just pulled code that is broken, or want to clean up an entire repository
 5. It exits gracefully when all errors are resolved.
 
 ### 2. Manual Build / Fix Modes
-To command the AI while enforcing the **God-Level Rules** (Elon Musk's 5-Step Algorithm, ClearCode, Ephemeral Branches, and Subagent Delegation):
+To command the AI while enforcing the **God-Level Rules** (The 5-Step Engineering Algorithm, ClearCode, Ephemeral Branches, and Subagent Delegation):
 
 ```powershell
 # Build a new feature
@@ -76,7 +76,7 @@ To tell the continuous Watchdog to monitor a brand new project:
 2. Add your new project's absolute path on a new line (e.g., `C:\Users\you\workspace\my-new-app`).
 3. Run `.\bin\use-agentic-ai.ps1 -Mode observe`.
 
-## The Elon Musk 5-Step Algorithm (Under the Hood)
+## The 5-Step Engineering Algorithm (Under the Hood)
 Whenever you run this tool, the AI is literally forced to obey this sequence before writing code:
 1. Question requirements.
 2. Delete unnecessary parts.
@@ -85,6 +85,7 @@ Whenever you run this tool, the AI is literally forced to obey this sequence bef
 5. Automate.
 
 You are now running a God-Level orchestration hub!
+
 
 
 
