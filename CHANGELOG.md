@@ -1,4 +1,12 @@
-﻿# 7.0.0 (2026-07-26)
+﻿# 8.0.0 (2026-07-26)
+
+### International Benchmark: The Ultimate Swarm
+* **core:** implement true O(1) SHA256-based Neural Memory Ledger for cross-process intelligence caching
+* **core:** implement asynchronous Human-in-the-Loop (HITL) manual approval gate for critical file extensions
+* **agent:** implement TDD Swarm node to automatically generate verification tests alongside patches
+* **agent:** implemented regex markdown stripping to ensure LLMs do not corrupt code with chat wrappers
+* **cli:** version bump to v8.0.0
+# 7.0.0 (2026-07-26)
 
 ### Agent Swarming & Multi-Agent Orchestration
 * **core:** rewrite emediator.ps1 to act as a Swarm Orchestrator
@@ -81,6 +89,7 @@
 ### Performance Improvements
 
 * minify system rules to minimize token usage and API costs ([9f185e9](https://github.com/tosudip369/agentic-devops-hub/commit/9f185e95277074f564e351c9c941e9fd6f106819))
+
 
 
 

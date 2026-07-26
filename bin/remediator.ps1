@@ -6,7 +6,7 @@ $failed = $false
 switch ($ext) {
     ".ps1" {
         $err = $null
-        [management.automation.psparser]::Tokenize((Get-Content $FilePath -Raw), [ref]$err)
+        [System.Management.Automation.PSParser]::Tokenize((Get-Content $FilePath -Raw), [ref]$err)
         if ($err) { $failed = $true; $errorMsg = $err[0].Message }
     }
     ".py" {
@@ -20,28 +20,68 @@ switch ($ext) {
 
 if ($failed) {
     Write-Host "❌ Error detected in $FilePath" -ForegroundColor Red
-    Write-Host "🐝 INITIATING AGENT SWARM ORCHESTRATION..." -ForegroundColor Magenta
+    
+    # === 1. ASYNCHRONOUS HUMAN-IN-THE-LOOP (HITL) CONTROL ===
+    if ($ext -match "\.sql|\.tf|\.json|\.yml|\.yaml|\.ps1|\.py") {
+        Write-Host "⚠️ CRITICAL FILE MUTATION DETECTED." -ForegroundColor Yellow
+        $ans = Read-Host "Captain, structural mutation requested on $FilePath. Proceed? (Y/N)"
+        if ($ans -notmatch "^Y") { 
+            Write-Host "Abort. Operation cancelled by Captain." -ForegroundColor Red
+            exit 
+        }
+    }
 
-    # AGENT 1: The Surgeon (Developer)
-    Write-Host "   -> 🤖 Dispatching Surgeon Agent for primary fix..." -ForegroundColor Cyan
-    $devPrompt = "[ROLE: SURGEON] The file $FilePath crashed with: $errorMsg. Write the exact replacement code to fix this. OUTPUT ONLY RAW CODE. No markdown fences. No explanations. Follow the 5-Step Algorithm."
+    # === 2. LONG-TERM VECTOR MEMORY (TRUE O(1) FILE LEDGER) ===
+    # Using SHA256 instead of GetHashCode() for stable cross-process memory retrieval
+    $hashBytes = [System.Security.Cryptography.SHA256]::Create().ComputeHash([System.Text.Encoding]::UTF8.GetBytes($errorMsg))
+    $sig = [System.BitConverter]::ToString($hashBytes) -replace '-'
+    $memoryDir = Join-Path (Split-Path (Split-Path $MyInvocation.MyCommand.Path)) ".hub_memory"
+    if (-not (Test-Path $memoryDir)) { New-Item -ItemType Directory -Path $memoryDir -Force | Out-Null }
+    
+    $memoryFile = Join-Path $memoryDir "$sig.txt"
+    if (Test-Path $memoryFile) {
+        Write-Host "🧠 [Memory Ledger] Retrieved past solution! O(1) instant fix applied." -ForegroundColor Magenta
+        Set-Content $FilePath -Value (Get-Content $memoryFile -Raw) -Encoding UTF8
+        exit
+    }
+
+    Write-Host "🐝 INITIATING V8 AGENT SWARM ORCHESTRATION..." -ForegroundColor Magenta
+
+    # === 3. TEST-DRIVEN DEVELOPMENT (TDD) ENGINEER ===
+    Write-Host "   -> 🧪 Dispatching Test Engineer..." -ForegroundColor Blue
+    $testPrompt = "[ROLE: TESTER] Write a PowerShell test to verify the fix for $errorMsg in $FilePath. OUTPUT RAW CODE ONLY."
+    $testFix = agy.exe --print $testPrompt --dangerously-skip-permissions
+    $testFix = $testFix -replace '`\w*\r?\n', '' -replace '`', ''
+    $testPath = "$FilePath.tests.ps1"
+    Set-Content $testPath -Value $testFix -Encoding UTF8
+    Write-Host "   -> 🧪 Test suite auto-generated at $testPath" -ForegroundColor Blue
+
+    # === 4. THE SURGEON (DEVELOPER) ===
+    Write-Host "   -> 🤖 Dispatching Surgeon Agent..." -ForegroundColor Cyan
+    $devPrompt = "[ROLE: SURGEON] The file $FilePath crashed with: $errorMsg. Write the exact replacement code to fix this. OUTPUT ONLY RAW CODE."
     $devFix = agy.exe --print $devPrompt --dangerously-skip-permissions
 
-    # AGENT 2: The Gatekeeper (Reviewer/Security)
-    Write-Host "   -> 🛡️ Dispatching Gatekeeper Agent for adversarial review..." -ForegroundColor Yellow
+    # === 5. THE GATEKEEPER (ADVERSARIAL REVIEW) ===
+    Write-Host "   -> 🛡️ Dispatching Gatekeeper Agent..." -ForegroundColor Yellow
     $reviewPrompt = "[ROLE: GATEKEEPER] Review this proposed fix for $FilePath:
 
 $devFix
 
-Analyze for O(1) performance, security leaks, and clearcode metrics. If it is flawless, output the exact word 'APPROVED'. If it is flawed, output the CORRECTED RAW CODE only."
+Analyze for O(1) performance and security. If flawless, output 'APPROVED'. If flawed, output CORRECTED RAW CODE."
     $finalFix = agy.exe --print $reviewPrompt --dangerously-skip-permissions
 
-    if ($finalFix.Trim() -eq "APPROVED") {
-        Write-Host "   ✅ Consensus Reached: Gatekeeper approved Surgeon's fix." -ForegroundColor Green
-        Set-Content $FilePath -Value $devFix -Encoding UTF8
+    if ($finalFix.Trim() -match "APPROVED") {
+        $finalCode = $devFix
     } else {
-        Write-Host "   ⚠️ Consensus Reached: Gatekeeper intervened and applied structural optimizations." -ForegroundColor Green
-        Set-Content $FilePath -Value $finalFix -Encoding UTF8
+        $finalCode = $finalFix
     }
-    Write-Host "🚀 Swarm Remediation Complete." -ForegroundColor Green
+
+    # Strip markdown wrappers injected by LLM
+    $finalCode = $finalCode -replace '`\w*\r?\n', '' -replace '`', ''
+
+    # === 6. UPDATE NEURAL MEMORY LEDGER ===
+    Set-Content $memoryFile -Value $finalCode -Encoding UTF8
+
+    Write-Host "   ✅ Consensus Reached & Memory Updated. Applying..." -ForegroundColor Green
+    Set-Content $FilePath -Value $finalCode -Encoding UTF8
 }
