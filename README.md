@@ -133,3 +133,6 @@ pm install). If the buffer still overflows, it automatically catches the Error e
 - **Negative Memory**: The Swarm writes Post-Mortems of failed attempts to the Neural Ledger, ensuring it never makes the same mistake twice.
 - **Spectre Context (RAG)**: The Orchestrator autonomously pseudo-greps your repository to find related files and missing interfaces before fixing bugs.
 
+
+## 🌌 v14.0.0 The Multi-File REPL
+- **Shattering the Bottleneck**: The Swarm is no longer restricted to fixing the single file that crashed. The AI outputs a JSON array, allowing it to autonomously edit multiple files simultaneously and run terminal commands to fix complex, multi-file architectural bugs.

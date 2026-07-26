@@ -33,17 +33,12 @@ switch ($ext) {
 if ($failed) {
     Write-Host "❌ Error detected in $FilePath" -ForegroundColor Red
     
-    # === 1. ASYNCHRONOUS HUMAN-IN-THE-LOOP (HITL) CONTROL ===
     if ($ext -match "\.sql|\.tf|\.json|\.yml|\.yaml|\.ps1|\.py|\.js|\.ts|\.go") {
         Write-Host "⚠️ CRITICAL FILE MUTATION DETECTED." -ForegroundColor Yellow
         $ans = Read-Host "Captain, structural mutation requested on $FilePath. Proceed? (Y/N)"
-        if ($ans -notmatch "^Y") { 
-            Write-Host "Abort. Operation cancelled by Captain." -ForegroundColor Red
-            exit 
-        }
+        if ($ans -notmatch "^Y") { exit }
     }
 
-    # === 2. NEURAL PATTERN MEMORY (FUZZY SEMANTIC HASHING) ===
     $semanticError = $errorMsg -replace '\b\d+\b', '' -replace '0x[a-fA-F0-9]+', '' -replace '([a-zA-Z]:\\[^\s]+)', ''
     $hashBytes = [System.Security.Cryptography.SHA256]::Create().ComputeHash([System.Text.Encoding]::UTF8.GetBytes($semanticError))
     $sig = [System.BitConverter]::ToString($hashBytes) -replace '-'
@@ -52,22 +47,24 @@ if ($failed) {
     
     $memoryFile = Join-Path $memoryDir "$sig.txt"
     if (Test-Path $memoryFile) {
-        Write-Host "🧠 [Positive Memory] Retrieved past solution! O(1) instant fix applied." -ForegroundColor Magenta
-        Set-Content $FilePath -Value (Get-Content $memoryFile -Raw) -Encoding UTF8
+        Write-Host "🧠 [Positive Memory] Retrieved past solution! Applying Multi-File Patch..." -ForegroundColor Magenta
+        $cachedFix = Get-Content $memoryFile -Raw
+        try {
+            $actions = $cachedFix | ConvertFrom-Json
+            foreach ($a in $actions) { if ($a.action -eq 'write') { Set-Content $a.file -Value $a.content -Encoding UTF8 } }
+        } catch { Set-Content $FilePath -Value $cachedFix -Encoding UTF8 }
         exit
     }
 
-    # === 3. NEGATIVE MEMORY (POST-MORTEMS) ===
     $failedMemoryFile = Join-Path $memoryDir "failed_$sig.txt"
     $negativeContext = ""
     if (Test-Path $failedMemoryFile) {
-        $negativeContext = "CRITICAL NEGATIVE MEMORY: You have attempted to fix this before and failed. Here is the post-mortem of previous failed code blocks you MUST NOT REPEAT:`n" + (Get-Content $failedMemoryFile -Raw)
-        Write-Host "🧠 [Negative Memory] Retrieved past failures. Enforcing new AI pathways..." -ForegroundColor DarkYellow
+        $negativeContext = "CRITICAL NEGATIVE MEMORY: You have attempted to fix this before and failed. Here is what you MUST NOT REPEAT:`n" + (Get-Content $failedMemoryFile -Raw)
+        Write-Host "🧠 [Negative Memory] Retrieved past failures." -ForegroundColor DarkYellow
     }
 
-    Write-Host "☠️ INITIATING PATH OF EXILE MINION SWARM (V13 APEX ENGINE)..." -ForegroundColor Magenta
+    Write-Host "☠️ INITIATING PATH OF EXILE MINION SWARM (V14 MULTI-FILE REPL)..." -ForegroundColor Magenta
 
-    # === 4. SPECTRES (MULTI-FILE RAG CONTEXT) ===
     Write-Host "   -> 👻 Summoning Spectres to scout the repository..." -ForegroundColor DarkCyan
     $repoContext = ""
     $keywords = $errorMsg -replace '[^\w]', ' ' -split ' ' | Where-Object { $_.Length -gt 5 } | Select-Object -Unique
@@ -77,25 +74,22 @@ if ($failed) {
             $path = $_.Name; $match = $false
             foreach ($k in $keywords) { if ($path -match $k) { $match = $true; break } }
             $match
-        } | Select-Object -First 2
+        } | Select-Object -First 3
         
         foreach ($cf in $contextFiles) {
             if ($cf.FullName -ne $FilePath) {
-                $repoContext += "`n--- Related File Context: $($cf.Name) ---`n" + ((Get-Content $cf.FullName -ErrorAction SilentlyContinue | Select-Object -First 50) -join "`n")
+                $repoContext += "`n--- Related File: $($cf.FullName) ---`n" + ((Get-Content $cf.FullName -ErrorAction SilentlyContinue | Select-Object -First 50) -join "`n")
             }
         }
     }
 
-    # === 5. SUMMON GOLEM (TDD ENGINEER) ===
-    Write-Host "   -> 🪨 Summoning Golem (Test Engineer) for structural buffs..." -ForegroundColor Blue
-    $testPrompt = "[ROLE: GOLEM] You are a TDD Golem. Write a test script to verify the fix for $errorMsg in $FilePath. OUTPUT RAW CODE ONLY."
+    Write-Host "   -> 🪨 Summoning Golem (Test Engineer)..." -ForegroundColor Blue
+    $testPrompt = "[ROLE: GOLEM] Write a test script to verify the fix for $errorMsg in $FilePath. OUTPUT RAW CODE ONLY."
     $testFix = agy.exe --print $testPrompt --dangerously-skip-permissions
     $testFix = $testFix -replace '(?s)^```\w*\n(.*)```$', '$1'
     $testPath = "$FilePath.tests$ext"
     Set-Content $testPath -Value $testFix -Encoding UTF8
-    Write-Host "   -> 🪨 Golem has fortified the build with a test suite at $testPath" -ForegroundColor Blue
 
-    # === 6. THE EXECUTION LOOP (SKELETON AUTONOMY) ===
     $maxRetries = 3
     $loopCount = 0
     $testPassed = $false
@@ -108,19 +102,33 @@ if ($failed) {
         $loopCount++
         Write-Host "   -> 💀 Summoning Skeleton (Attempt $loopCount/$maxRetries)..." -ForegroundColor Cyan
         
-        $basePrompt = "[ROLE: SKELETON] You are an aggressive code Surgeon. The file $FilePath crashed. Fix it. OUTPUT ONLY RAW CODE. You operate under the 5-Step Algorithm.`n`n$negativeContext`n`n$repoContext"
+        $basePrompt = "[ROLE: SKELETON] You are an aggressive code Surgeon. The file $FilePath crashed. To fix this, you may need to patch MULTIPLE files or run terminal commands. OUTPUT ONLY A STRICT JSON ARRAY OF ACTIONS. Format: `n[`n  {`"action`": `"write`", `"file`": `"absolute_path_to_file`", `"content`": `"raw code`"},`n  {`"action`": `"command`", `"cmd`": `"npm install package`"}`n]`nDO NOT OUTPUT MARKDOWN, ONLY VALID JSON. `n`n$negativeContext`n`n$repoContext"
+        
         if ($loopCount -eq 1) {
             $devPrompt = "$basePrompt`n`nError: $errorMsg"
         } else {
-            $devPrompt = "$basePrompt`n`nYour previous fix failed the test with error: $testError. Rewrite the exact replacement code."
+            $devPrompt = "$basePrompt`n`nYour previous JSON patch failed the test with error: $testError. Rewrite the JSON patch."
         }
         
         $devFix = agy.exe --print $devPrompt --dangerously-skip-permissions
         $devFix = $devFix -replace '(?s)^```\w*\n(.*)```$', '$1'
         
-        Set-Content $FilePath -Value $devFix -Encoding UTF8
+        # === V14 THE MULTI-FILE REPL EXECUTION ===
+        try {
+            $actions = $devFix | ConvertFrom-Json
+            foreach ($action in $actions) {
+                if ($action.action -eq 'write') {
+                    Set-Content $action.file -Value $action.content -Encoding UTF8
+                } elseif ($action.action -eq 'command') {
+                    Write-Host "   -> 💻 Executing AI Command: $($action.cmd)" -ForegroundColor DarkGray
+                    Invoke-Expression $action.cmd | Out-Null
+                }
+            }
+        } catch {
+            Write-Host "   -> ⚠️ Skeleton failed to output valid JSON. Falling back to single-file patch..." -ForegroundColor Yellow
+            Set-Content $FilePath -Value $devFix -Encoding UTF8
+        }
         
-        # === 7. THE DOCKER MATRIX (SANDBOXING) ===
         if ($hasDocker) {
             Write-Host "   -> 🐳 Executing test inside Ephemeral Docker Sandbox..." -ForegroundColor Magenta
             $dockerImg = switch ($ext) {
@@ -138,7 +146,7 @@ if ($failed) {
                 $LASTEXITCODE = 1
             }
         } else {
-            Write-Host "   -> ⚠️ Docker not found. Executing locally (UNSAFE)..." -ForegroundColor DarkYellow
+            Write-Host "   -> ⚠️ Executing test locally (UNSAFE)..." -ForegroundColor DarkYellow
             $testOutput = switch ($ext) {
                 ".ps1" { pwsh -NoProfile -NonInteractive -Command "& '$testPath'" 2>&1 }
                 ".py"  { python "$testPath" 2>&1 }
@@ -149,23 +157,22 @@ if ($failed) {
         
         if ($LASTEXITCODE -eq 0 -or $LASTEXITCODE -eq $null) {
             $testPassed = $true
-            Write-Host "   -> 🟢 Skeleton Code PASSED the Golem's Test!" -ForegroundColor Green
+            Write-Host "   -> 🟢 Skeleton JSON Patch PASSED!" -ForegroundColor Green
         } else {
             $testError = $testOutput
-            Write-Host "   -> 🔴 Skeleton Code FAILED the Golem's Test. Forcing rewrite..." -ForegroundColor Red
+            Write-Host "   -> 🔴 Skeleton Patch FAILED. Forcing rewrite..." -ForegroundColor Red
             Add-Content $failedMemoryFile -Value "`n--- FAILED ATTEMPT $loopCount ---`n$devFix" -Encoding UTF8
         }
     }
 
     if (-not $testPassed) {
-        Write-Host "⚠️ Swarm failed after $maxRetries attempts. Restoring original code." -ForegroundColor Red
+        Write-Host "⚠️ Swarm failed. Restoring original code." -ForegroundColor Red
         Set-Content $FilePath -Value $originalContent -Encoding UTF8
         exit
     }
 
-    # === 8. SUMMON ZOMBIE (GATEKEEPER) ===
-    Write-Host "   -> 🧟 Summoning Zombie (Gatekeeper) for heavy defensive review..." -ForegroundColor Yellow
-    $reviewPrompt = "[ROLE: ZOMBIE] You are a Gatekeeper Zombie. Review this test-verified fix for $FilePath:`n`n$devFix`n`nAnalyze for security under the 5-Step Algorithm. If flawless, output 'APPROVED'. If flawed, output CORRECTED RAW CODE."
+    Write-Host "   -> 🧟 Summoning Zombie (Gatekeeper) for heavy review..." -ForegroundColor Yellow
+    $reviewPrompt = "[ROLE: ZOMBIE] You are a Gatekeeper Zombie. Review this JSON patch for security:`n`n$devFix`n`nIf flawless, output 'APPROVED'. If flawed, output CORRECTED JSON."
     $finalFix = agy.exe --print $reviewPrompt --dangerously-skip-permissions
 
     if ($finalFix.Trim() -match "APPROVED") {
@@ -174,10 +181,8 @@ if ($failed) {
         $finalCode = $finalFix -replace '(?s)^```\w*\n(.*)```$', '$1'
     }
 
-    # === 9. UPDATE NEURAL MEMORY LEDGER ===
     Set-Content $memoryFile -Value $finalCode -Encoding UTF8
     if (Test-Path $failedMemoryFile) { Remove-Item $failedMemoryFile -Force }
 
-    Write-Host "   ✅ Minion Consensus Reached & Neural Memory Updated. Applying..." -ForegroundColor Green
-    Set-Content $FilePath -Value $finalCode -Encoding UTF8
+    Write-Host "   ✅ Minion Consensus Reached. Applying Final Multi-File Patch..." -ForegroundColor Green
 }

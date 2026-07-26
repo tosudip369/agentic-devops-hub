@@ -1,3 +1,10 @@
+﻿# 14.0.0 (2026-07-26)
+
+### The Multi-File REPL (Breaking the 10.0 Bottleneck)
+* **core:** completely rewrote the LLM parser to expect and execute a JSON array of actions (write, command), unlocking the ability to edit multiple files simultaneously
+* **agent:** Skeletons can now issue arbitrary terminal commands (like package installations) to resolve dependencies dynamically before testing
+* **docs:** overhauled SYSTEM_DESIGN.md and README.md to reflect the new Multi-File Horizon
+* **cli:** version bump to v14.0.0
 # [12.1.0](https://github.com/tosudip369/agentic-devops-hub/compare/v12.0.1...v12.1.0) (2026-07-26)
 
 
@@ -141,3 +148,4 @@
 ### Performance Improvements
 
 * minify system rules to minimize token usage and API costs ([9f185e9](https://github.com/tosudip369/agentic-devops-hub/commit/9f185e95277074f564e351c9c941e9fd6f106819))
+
