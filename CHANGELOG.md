@@ -1,4 +1,12 @@
-﻿# 9.0.0 (2026-07-26)
+﻿# 10.0.0 (2026-07-26)
+
+### The Execution Loop (Autonomous Benchmarking)
+* **core:** introduced The Execution Loop, transitioning the system from a DAG to a self-correcting autonomous cycle
+* **agent:** orchestrated autonomous TDD loop where Skeletons must pass Golem tests before proceeding to Gatekeeper review
+* **core:** implemented auto-rollback mechanism to restore original code if Swarm fails after 3 retry loops
+* **docs:** updated SYSTEM_DESIGN.md to reflect V10 International Benchmarking standards
+* **cli:** version bump to v10.0.0
+# 9.0.0 (2026-07-26)
 
 ### The Path of Exile Minion Swarm Update
 * **architecture:** formally adopted the Path of Exile (PoE) Minion Swarm paradigm for Subagent orchestration
@@ -97,6 +105,7 @@
 ### Performance Improvements
 
 * minify system rules to minimize token usage and API costs ([9f185e9](https://github.com/tosudip369/agentic-devops-hub/commit/9f185e95277074f564e351c9c941e9fd6f106819))
+
 
 
 

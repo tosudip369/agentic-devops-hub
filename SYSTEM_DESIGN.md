@@ -1,6 +1,6 @@
-﻿# 🏗️ Agentic DevOps Hub: System Architecture (V9 Path of Exile Minion Swarm)
+﻿# 🏗️ Agentic DevOps Hub: System Architecture (V10 Path of Exile Minion Swarm)
 
-The Hub is a hyper-optimized, event-driven Agentic Operating System designed for zero-latency, cross-platform remediation, and autonomous swarm orchestration. It operates on the **V8 International Benchmark** standard.
+The Hub is a hyper-optimized, event-driven Agentic Operating System designed for zero-latency, cross-platform remediation, and autonomous swarm orchestration. It operates on the **V10 International Benchmark: The Execution Loop** standard.
 
 ## 1. ⚡ Event-Driven Observer (HFT-Speed)
 Instead of polling file systems on a timer, the Hub uses .NET native System.IO.FileSystemWatcher to detect crashes and errors instantly.
@@ -33,4 +33,5 @@ This injects the project path into the Hub's projects.conf registry, placing it 
 
 ---
 *Built via The 5-Step Engineering Algorithm.*
+
 
