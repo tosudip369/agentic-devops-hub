@@ -228,14 +228,14 @@ if (Get-Command "git" -ErrorAction SilentlyContinue) {
             $GitContext += "`n`n[GITHUB REPOSITORY]`nRepo: $RemoteUrl"
         }
         
-        $ProjectMap = (git ls-files | Select-Object -First 15) -join "`n"
+        $ProjectMap = (git ls-files | Select-Object -First $MAX_PROJECT_MAP_FILES) -join "`n"
         if (-not [string]::IsNullOrWhiteSpace($ProjectMap)) {
             $GitContext += "`n`n[PROJECT ARCHITECTURE MAP]`n$ProjectMap"
         }
 
         $GitStatus = git status --short
         if (-not [string]::IsNullOrWhiteSpace($GitStatus)) {
-            $GitDiff = (git diff | Select-Object -First 20) -join "`n"
+            $GitDiff = (git diff | Select-Object -First $MAX_GIT_DIFF_LINES) -join "`n"
             $GitContext += "`n`n[MODIFIED FILES]`n$GitStatus`n`n[RECENT CODE CHANGES]`n$GitDiff"
         }
     }
@@ -305,6 +305,7 @@ if (-not $dispatched) {
     Write-Host $FullPrompt
     Write-Host "  ----------------------------" -ForegroundColor DarkGray
 }
+
 
 
 

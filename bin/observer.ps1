@@ -19,7 +19,7 @@ $action = {
     if ($path -match "\.(ps1|py|sh|json)$") {
         $now = [DateTime]::UtcNow
         $lastTime = $global:LastEventTime.GetOrAdd($path, [DateTime]::MinValue)
-        if (($now - $lastTime).TotalMilliseconds -lt 500) { return } # Debounce 500ms
+        if (($now - $lastTime).TotalMilliseconds -lt $DEBOUNCE_MS) { return } # Debounce 500ms
         $global:LastEventTime[$path] = $now
 
         Write-Host "⚡ File Trigger: $path" -ForegroundColor Cyan
@@ -35,4 +35,5 @@ $action = {
 Register-ObjectEvent $watcher "Changed" -Action $action | Out-Null
 
 while ($true) { Start-Sleep -Milliseconds 100 }
+
 
