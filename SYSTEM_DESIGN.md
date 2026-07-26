@@ -1,44 +1,31 @@
-﻿# 🏗️ Agentic DevOps Hub: System Architecture (V16 Path of Exile Minion Swarm)
+﻿# 🌍 Global System Design (v16.0.0)
 
-The Hub is a hyper-optimized, event-driven Agentic Operating System designed for zero-latency, cross-platform remediation, and autonomous swarm orchestration. It operates on the **V16 The MCP Bridge (Model Context Protocol)** standard.
+## The 10/10 Universal Apex Architecture
 
-## 1. ⚡ Event-Driven Observer (HFT-Speed)
-Instead of polling file systems on a timer, the Hub uses .NET native System.IO.FileSystemWatcher to detect crashes and errors instantly.
-- **Hyperparameter Tuned**: Utilizing an explicit 64KB internal buffer.
-- **Buffer Overflow Protection**: Native fallback loops catch missed events during massive I/O operations (like 
-pm install).
+The Agentic DevOps Hub is not a script. It is an **S-Tier Agentic Operating System** designed strictly under the Software Process Model (SPM) to execute autonomous multi-file architecture remediation.
 
-## 2. 🧠 Neural Memory Ledger (O(1) RAG)
-The Swarm is connected to a long-term file-based Neural Memory Ledger (.hub_memory/).
-- **Fuzzy Semantic Hashing**: The Orchestrator strips out line numbers, file paths, and memory addresses using Regex *before* hashing the error stack trace. This creates a stable **Semantic Signature**. If the same logical bug happens on a different line in a different file, the Swarm instantly recognizes it.
-- **System Integrity Sweep**: A dedicated integrity-check.ps1 script routinely scrubs the memory ledger to ensure LLM markdown corruptions never persist.
-- It queries the memory ledger. If the hash exists, it instantly pulls the verified solution in **O(1) latency** without ever waking up the AI Agents, saving massive API token costs.
+### 🐝 1. The Swarm Topology (Minion Matrix)
+The framework operates a Path of Exile-inspired Minion Swarm:
+* **Spectres (Scouts)**: Fetch repository-wide context (RAG) by pseudo-grepping stack traces against codebase interfaces.
+* **Golem (TDD Engineer)**: Auto-generates test suites to validate incoming fixes.
+* **Skeleton (Surgeon)**: The core generator. Outputs strict JSON array mutations (Multi-File REPL).
+* **Zombie (Gatekeeper)**: Enforces adversarial security audits before code is saved.
 
-## 3. 🐝 The Path of Exile Minion Swarm (Necromancer)
-When an unknown error occurs, the Orchestrator dispatches a Multi-Agent Swarm:
-1. **The Golem (TDD Engineer)**: Spawns instantly to analyze the error and auto-generate a .tests.ps1 verification file right next to the broken file.
-2. **The Skeleton (Surgeon)**: Spawns to write the raw code fix.
-3. **The Zombie (Gatekeeper Reviewer)**: Receives the Surgeon's code in memory and structurally reviews it for O(1) performance and security vulnerabilities.
-The code is written to disk *only* when the Gatekeeper and Surgeon reach autonomous consensus.
+### 🛡️ 2. The Docker Sandbox
+Security is paramount. The Swarm cannot destroy your machine. When the Skeleton writes a code fix, the Orchestrator mounts it into an ephemeral Alpine Linux Docker container (
+ode:20-alpine, python:3.11-alpine, golang:1.21-alpine) to run the Golem's test. If the AI writes malicious code, the container dies, but your host survives.
 
-## 4. 🛡️ Human-in-the-Loop (HITL) Security Gates
-The Hub operates autonomously, but critical files (.sql, .tf, .json, .yml, .ps1, .py) are guarded by asynchronous HITL gates. If the Swarm attempts to mutate infrastructure or executable logic, it physically pauses the console and demands a Y/N Captain's authorization before proceeding.
+### 🧠 3. Negative Memory (O(1) Pattern Hashing)
+When the AI fails, it learns. The system generates a SHA256 semantic hash of the error stack (stripping transient data like line numbers).
+* **Negative Memory**: Failed attempts are logged to ailed_hash.txt. The AI reads its own post-mortems in future loops to avoid hallucination loops.
+* **Positive Memory**: Successful fixes are cached in hash.txt. If the bug returns, it is patched instantly in O(1) time without calling an LLM.
 
-## 5. 🌐 Hub and Spoke Topology
-The Hub (C:\Users\Asus Tuf\agentic-devops-hub) is the brain. It watches "spokes" (other projects on your machine).
-To link a new project to the brain, navigate to the target directory and run:
-``powershell
-agentic -Mode link
-``
-This injects the project path into the Hub's projects.conf registry, placing it under immediate autonomous observation.
+### 🌌 4. The Multi-File REPL
+The Orchestrator reads a strict JSON array from the Surgeon, enabling it to write to 5 different files and execute 3 terminal commands (e.g., 
+pm install) in a single, atomic operation. It is no longer restricted by single-file string replacement.
 
----
-*Built via The 5-Step Engineering Algorithm.*
+### 🔌 5. Model Context Protocol (MCP) Bridge
+By loading tool schemas into .hub_mcp/, the execution loop evolves from static code generation into a dynamic, multi-turn reasoning agent. The AI can execute local tools (e.g., search_web), ingest the results, and refine its plan before patching files.
 
-
-
-
-
-
-
-
+### 🌐 6. The Democratized API Router
+The framework is fully provider-agnostic. Setting $env:HUB_AI_PROVIDER allows local developers to run the massive Swarm entirely for free on their GPU via **Ollama**, or connect it to high-speed inference grids like **Groq**, **OpenRouter**, **Hugging Face**, **OpenAI**, or secure **Custom** corporate firewalls.
