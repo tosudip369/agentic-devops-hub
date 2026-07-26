@@ -1,4 +1,11 @@
-﻿# 11.0.0 (2026-07-26)
+﻿# 12.0.0 (2026-07-26)
+
+### The Universal Language Engine
+* **core:** injected native syntax checking for Node.js (.js), TypeScript (.ts), and Golang (.go) into the Orchestrator
+* **security:** expanded Human-in-the-Loop (HITL) manual approval gate to cover all new executable extensions
+* **docs:** updated README.md to reflect multi-language Swarm capabilities
+* **cli:** version bump to v12.0.0
+# 11.0.0 (2026-07-26)
 
 ### Neural Pattern Integrity & Fuzzy Hashing
 * **core:** upgraded O(1) Memory Ledger to use Fuzzy Semantic Hashing (stripping line numbers and paths) for generalized bug matching
@@ -112,6 +119,7 @@
 ### Performance Improvements
 
 * minify system rules to minimize token usage and API costs ([9f185e9](https://github.com/tosudip369/agentic-devops-hub/commit/9f185e95277074f564e351c9c941e9fd6f106819))
+
 
 
 

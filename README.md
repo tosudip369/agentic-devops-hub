@@ -112,3 +112,6 @@ pm install). If the buffer still overflows, it automatically catches the Error e
 ## 🧠 v11.0.0 Neural Pattern Integrity
 - **Fuzzy Hashing**: The Memory Ledger now strips ephemeral data (line numbers, file paths) to generate stable Semantic Signatures.
 - **Self-Healing Ledger**: Added in\integrity-check.ps1 to automatically purge corrupted memory nodes.
+
+## 🌍 v12.0.0 Universal Engine Integration
+- **Multi-Language Swarm**: The Orchestrator natively understands, checks, and patches .js (Node), .ts (TypeScript), and .go (Golang) alongside Python and PowerShell.

@@ -22,7 +22,7 @@ if ($failed) {
     Write-Host "❌ Error detected in $FilePath" -ForegroundColor Red
     
     # === 1. ASYNCHRONOUS HUMAN-IN-THE-LOOP (HITL) CONTROL ===
-    if ($ext -match "\.sql|\.tf|\.json|\.yml|\.yaml|\.ps1|\.py") {
+    if ($ext -match "\.sql|\.tf|\.json|\.yml|\.yaml|\.ps1|\.py|\.js|\.ts|\.go") {
         Write-Host "⚠️ CRITICAL FILE MUTATION DETECTED." -ForegroundColor Yellow
         $ans = Read-Host "Captain, structural mutation requested on $FilePath. Proceed? (Y/N)"
         if ($ans -notmatch "^Y") { 
@@ -118,4 +118,5 @@ Analyze for O(1) performance and security. If flawless, output 'APPROVED'. If fl
     Write-Host "   ✅ Minion Consensus Reached & Memory Updated. Applying final patch..." -ForegroundColor Green
     Set-Content $FilePath -Value $finalCode -Encoding UTF8
 }
+
 
