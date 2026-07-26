@@ -32,7 +32,6 @@ if ($failed) {
     }
 
     # === 2. LONG-TERM VECTOR MEMORY (TRUE O(1) FILE LEDGER) ===
-    # Using SHA256 instead of GetHashCode() for stable cross-process memory retrieval
     $hashBytes = [System.Security.Cryptography.SHA256]::Create().ComputeHash([System.Text.Encoding]::UTF8.GetBytes($errorMsg))
     $sig = [System.BitConverter]::ToString($hashBytes) -replace '-'
     $memoryDir = Join-Path (Split-Path (Split-Path $MyInvocation.MyCommand.Path)) ".hub_memory"
@@ -45,29 +44,29 @@ if ($failed) {
         exit
     }
 
-    Write-Host "🐝 INITIATING V8 AGENT SWARM ORCHESTRATION..." -ForegroundColor Magenta
+    Write-Host "☠️ INITIATING PATH OF EXILE MINION SWARM (NECROMANCER ORCHESTRATION)..." -ForegroundColor Magenta
 
-    # === 3. TEST-DRIVEN DEVELOPMENT (TDD) ENGINEER ===
-    Write-Host "   -> 🧪 Dispatching Test Engineer..." -ForegroundColor Blue
-    $testPrompt = "[ROLE: TESTER] Write a PowerShell test to verify the fix for $errorMsg in $FilePath. OUTPUT RAW CODE ONLY."
+    # === 3. SUMMON GOLEM (TDD ENGINEER) ===
+    Write-Host "   -> 🪨 Summoning Golem (Test Engineer) for structural buffs..." -ForegroundColor Blue
+    $testPrompt = "[ROLE: GOLEM] You are a TDD Golem. Write a PowerShell test to verify the fix for $errorMsg in $FilePath. OUTPUT RAW CODE ONLY. You operate under the 5-Step Algorithm."
     $testFix = agy.exe --print $testPrompt --dangerously-skip-permissions
     $testFix = $testFix -replace '`\w*\r?\n', '' -replace '`', ''
     $testPath = "$FilePath.tests.ps1"
     Set-Content $testPath -Value $testFix -Encoding UTF8
-    Write-Host "   -> 🧪 Test suite auto-generated at $testPath" -ForegroundColor Blue
+    Write-Host "   -> 🪨 Golem has fortified the build with a test suite at $testPath" -ForegroundColor Blue
 
-    # === 4. THE SURGEON (DEVELOPER) ===
-    Write-Host "   -> 🤖 Dispatching Surgeon Agent..." -ForegroundColor Cyan
-    $devPrompt = "[ROLE: SURGEON] The file $FilePath crashed with: $errorMsg. Write the exact replacement code to fix this. OUTPUT ONLY RAW CODE."
+    # === 4. SUMMON SKELETON (SURGEON) ===
+    Write-Host "   -> 💀 Summoning Skeleton (Surgeon) for aggressive code patching..." -ForegroundColor Cyan
+    $devPrompt = "[ROLE: SKELETON] You are an aggressive code Surgeon. The file $FilePath crashed with: $errorMsg. Write the exact replacement code to fix this. OUTPUT ONLY RAW CODE. You operate under the 5-Step Algorithm."
     $devFix = agy.exe --print $devPrompt --dangerously-skip-permissions
 
-    # === 5. THE GATEKEEPER (ADVERSARIAL REVIEW) ===
-    Write-Host "   -> 🛡️ Dispatching Gatekeeper Agent..." -ForegroundColor Yellow
-    $reviewPrompt = "[ROLE: GATEKEEPER] Review this proposed fix for $FilePath:
+    # === 5. SUMMON ZOMBIE (GATEKEEPER) ===
+    Write-Host "   -> 🧟 Summoning Zombie (Gatekeeper) for heavy defensive review..." -ForegroundColor Yellow
+    $reviewPrompt = "[ROLE: ZOMBIE] You are a defensive Gatekeeper Zombie. Review this proposed fix for $FilePath:
 
 $devFix
 
-Analyze for O(1) performance and security. If flawless, output 'APPROVED'. If flawed, output CORRECTED RAW CODE."
+Analyze for O(1) performance and security under the 5-Step Algorithm. If flawless, output 'APPROVED'. If flawed, output CORRECTED RAW CODE."
     $finalFix = agy.exe --print $reviewPrompt --dangerously-skip-permissions
 
     if ($finalFix.Trim() -match "APPROVED") {
@@ -82,6 +81,6 @@ Analyze for O(1) performance and security. If flawless, output 'APPROVED'. If fl
     # === 6. UPDATE NEURAL MEMORY LEDGER ===
     Set-Content $memoryFile -Value $finalCode -Encoding UTF8
 
-    Write-Host "   ✅ Consensus Reached & Memory Updated. Applying..." -ForegroundColor Green
+    Write-Host "   ✅ Minion Consensus Reached & Memory Updated. Applying..." -ForegroundColor Green
     Set-Content $FilePath -Value $finalCode -Encoding UTF8
 }

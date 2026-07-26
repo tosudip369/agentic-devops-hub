@@ -1,4 +1,4 @@
-﻿# 🏗️ Agentic DevOps Hub: System Architecture (V8 International Benchmark)
+﻿# 🏗️ Agentic DevOps Hub: System Architecture (V9 Path of Exile Minion Swarm)
 
 The Hub is a hyper-optimized, event-driven Agentic Operating System designed for zero-latency, cross-platform remediation, and autonomous swarm orchestration. It operates on the **V8 International Benchmark** standard.
 
@@ -13,11 +13,11 @@ The Swarm is connected to a long-term file-based Neural Memory Ledger (.hub_memo
 - When a file crashes, the Orchestrator generates a deterministic **SHA256 Cryptographic Hash** of the error stack trace.
 - It queries the memory ledger. If the hash exists, it instantly pulls the verified solution in **O(1) latency** without ever waking up the AI Agents, saving massive API token costs.
 
-## 3. 🐝 The Swarm Orchestrator
+## 3. 🐝 The Path of Exile Minion Swarm (Necromancer)
 When an unknown error occurs, the Orchestrator dispatches a Multi-Agent Swarm:
-1. **The Test Engineer (TDD)**: Spawns instantly to analyze the error and auto-generate a .tests.ps1 verification file right next to the broken file.
-2. **The Surgeon (Developer)**: Spawns to write the raw code fix.
-3. **The Gatekeeper (Adversarial Review)**: Receives the Surgeon's code in memory and structurally reviews it for O(1) performance and security vulnerabilities.
+1. **The Golem (TDD Engineer)**: Spawns instantly to analyze the error and auto-generate a .tests.ps1 verification file right next to the broken file.
+2. **The Skeleton (Surgeon)**: Spawns to write the raw code fix.
+3. **The Zombie (Gatekeeper Reviewer)**: Receives the Surgeon's code in memory and structurally reviews it for O(1) performance and security vulnerabilities.
 The code is written to disk *only* when the Gatekeeper and Surgeon reach autonomous consensus.
 
 ## 4. 🛡️ Human-in-the-Loop (HITL) Security Gates
@@ -33,3 +33,4 @@ This injects the project path into the Hub's projects.conf registry, placing it 
 
 ---
 *Built via The 5-Step Engineering Algorithm.*
+

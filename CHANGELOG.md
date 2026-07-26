@@ -1,4 +1,12 @@
-﻿# 8.0.0 (2026-07-26)
+﻿# 9.0.0 (2026-07-26)
+
+### The Path of Exile Minion Swarm Update
+* **architecture:** formally adopted the Path of Exile (PoE) Minion Swarm paradigm for Subagent orchestration
+* **agent:** replaced generic agent roles with highly specialized PoE Minions (Skeletons, Zombies, Golems, Spectres)
+* **core:** deeply integrated the 5-Step Engineering Algorithm as the global 'Ascendancy Passive Tree' modifying all agent outputs
+* **docs:** entirely rewrote AGENTS.md and SYSTEM_DESIGN.md to reflect the Necromancer Orchestrator logic
+* **cli:** version bump to v9.0.0
+# 8.0.0 (2026-07-26)
 
 ### International Benchmark: The Ultimate Swarm
 * **core:** implement true O(1) SHA256-based Neural Memory Ledger for cross-process intelligence caching
@@ -89,6 +97,7 @@
 ### Performance Improvements
 
 * minify system rules to minimize token usage and API costs ([9f185e9](https://github.com/tosudip369/agentic-devops-hub/commit/9f185e95277074f564e351c9c941e9fd6f106819))
+
 
 
 
