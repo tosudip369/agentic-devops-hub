@@ -1,5 +1,5 @@
-# ==============================================================================
-# use-agentic-ai v3.0.1 — The Autonomous Cutting-Edge Builder
+﻿# ==============================================================================
+# use-agentic-ai v3.1.0 — The Autonomous Cutting-Edge Builder
 # ==============================================================================
 # Modes: build | fix | auto | observe | status
 # Auto-detects agents: agy, claude, codex, openclaw, hermes, ollama
@@ -26,7 +26,7 @@ $RemediateScript = Join-Path (Join-Path $HubRoot "bin") "remediate.sh"
 # ── HELP ──────────────────────────────────────────────────────────────────────
 if ([string]::IsNullOrWhiteSpace($UserPrompt) -and $Mode -eq "build") {
     Write-Host ""
-    Write-Host "  use-agentic-ai v3.0.1 — The Autonomous Builder" -ForegroundColor Cyan
+    Write-Host "  use-agentic-ai v3.1.0 — The Autonomous Builder" -ForegroundColor Cyan
     Write-Host "  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━" -ForegroundColor DarkGray
     Write-Host ""
     Write-Host "  USAGE:" -ForegroundColor Yellow
@@ -42,6 +42,7 @@ if ([string]::IsNullOrWhiteSpace($UserPrompt) -and $Mode -eq "build") {
     Write-Host "    auto     — Auto-scan current dir, find errors, fix them" -ForegroundColor Green
     Write-Host "    observe  — Start the background observer watchdog" -ForegroundColor White
     Write-Host "    status   — Show system health and memory stats" -ForegroundColor White
+    Write-Host "    (Tip: run '. .\activate.ps1' to just type 'agentic' anywhere)" -ForegroundColor DarkGray
     Write-Host ""
     exit 0
 }
@@ -50,7 +51,7 @@ if ([string]::IsNullOrWhiteSpace($UserPrompt) -and $Mode -eq "build") {
 if ($Mode -eq "status") {
     Write-Host ""
     Write-Host "  ┌─────────────────────────────────────┐" -ForegroundColor Cyan
-    Write-Host "  │  🧠 Agentic DevOps Hub v3.0.1         │" -ForegroundColor Cyan
+    Write-Host "  │  🧠 Agentic DevOps Hub v3.1.0         │" -ForegroundColor Cyan
     Write-Host "  └─────────────────────────────────────┘" -ForegroundColor Cyan
     Write-Host ""
 
@@ -189,7 +190,7 @@ if ($Mode -eq "auto") {
 
 # 1. TOKEN-OPTIMIZED RULES + 5-STEP ALGORITHM
 $BaseRules = @"
-[DIR:v3.0.1] Arch:AgenticDevOpsHub
+[DIR:v3.1.0] Arch:AgenticDevOpsHub
 Code: O(1)/O(N) pref. Max 2-lvl nest. Single-resp fns. Self-doc vars.
 Flow: Ephemeral branches only. Write tests. Pass strict CI/CD.
 Subagents: Auto-spawn subagents (security-auditor, code-reviewer) for complex/parallel tasks.
@@ -246,7 +247,7 @@ if (Test-Path $LedgerPath) {
 $FullPrompt = "$BaseRules $DynamicRules $GitContext $MemoryContext`n`n[USER REQUEST]`n$UserPrompt"
 
 Write-Host ""
-Write-Host "  🧠 [use-agentic-ai v3.0.1] Dispatching..." -ForegroundColor Cyan
+Write-Host "  🧠 [use-agentic-ai v3.1.0] Dispatching..." -ForegroundColor Cyan
 if ($DynamicRules) { Write-Host "   → 📄 Project rules injected" -ForegroundColor DarkGray }
 if ($GitContext) { Write-Host "   → 🌿 Git context injected" -ForegroundColor DarkGray }
 Write-Host ""
@@ -294,3 +295,5 @@ if (-not $dispatched) {
     Write-Host $FullPrompt
     Write-Host "  ----------------------------" -ForegroundColor DarkGray
 }
+
+

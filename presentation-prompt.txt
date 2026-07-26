@@ -1,0 +1,82 @@
+Apply the following design system to make the presentation visually outstanding, not just content-complete:
+
+Layout & Composition
+
+Use a consistent grid — same margin, same title position, same content zone on every slide
+One core idea per slide — avoid cramming multiple concepts on a single slide
+Use asymmetric layouts (not everything centered) — image/visual on one side, text on the other, for visual interest
+Generous white space — don't fill every inch, let content breathe
+Visual hierarchy: title > key point > supporting detail, using size and weight, not just color
+
+Typography
+
+Max 2 font families: one bold/modern for headings, one clean/readable for body text
+Large, confident slide titles (short phrases, not full sentences)
+Short bullet lines (under 8-10 words each) — no paragraphs on slides
+Use bold or color highlight on the ONE key word/number per slide instead of bolding everything
+
+Color & Theme
+
+Pick a small, consistent palette: 1 primary color (brand-ish), 1 accent color, 1 neutral background, 1 dark text color — nothing more
+Use color purposefully — e.g., accent color only for the 70/30/10 split visualization or key numbers, not decoratively everywhere
+Avoid default PowerPoint blue/gray theme — go for something that feels modern and slightly tech/robotics-coded (deep navy, teal, or graphite with a bright accent like orange or lime)
+
+Visual Elements
+
+Turn the 70-30-10 model into an actual visual (stacked bar, pie segment, or layered pyramid) — not a bullet list
+Use simple icons (not clipart) for each field/vertical (agriculture, hospitality, industrial, etc.) instead of just text labels
+For the "growth roadmap" slide, use a horizontal timeline/arrow graphic instead of a list
+For the flagship elderly-care robot idea, use one clean illustrative graphic or diagram showing robot → sensor/voice input → reminder output flow
+
+Slide-by-Slide UX Notes
+
+Title slide: minimal — just team/project name placeholder, one clean visual (robot/drone silhouette), no clutter
+Model/roadmap slides: diagram-first, text second
+"Fields we can grow into" slide: icon grid layout (not a bulleted list) so it's scannable at a glance
+Closing slide: simple, one-line forward-looking statement, no "thank you for your time" corporate closer — keep it casual since it's for a colleague
+
+Motion/Interaction (if tool supports it)
+
+Subtle entrance animations only (fade/slide-in), nothing flashy or distracting
+No slide transitions like spin/zoom — keep it clean and fast-paced for a casual walkthrough
+
+Overall Feel
+
+Should look like a lean tech startup's internal deck — confident but unpolished-in-a-good-way, not a corporate boardroom template
+Prioritize clarity and scannability over decoration — every visual choice should make the idea easier to grasp faster, not just look nice"my name is sudip bhattarai
+
+"Create a PowerPoint presentation for a young, early-stage robotics startup pitch/overview deck. Keep the tone simple, honest, and non-corporate — we're a small team of members (no formal titles, no CEO/founder language), still learning, building step by step with low capital. Don't oversell or use heavy business jargon.
+
+Cover these sections:
+
+Who we are — a young team passionate about robotics, learning by building, not claiming to be experts yet
+
+What we already have — existing robotics/drone kits, training programs, basic ag-drone capability
+
+Our approach: 70-30-10 model
+
+70% Core: training programs, kit sales, agricultural drone services (spraying, mapping, crop monitoring)
+
+30% Adjacent: IoT systems (smart irrigation, monitoring), heavier-payload drones (up to 25kg), industrial robotic arms, contract R&D projects
+
+10% Experimental: light AI integration (chatbots, basic RAG, computer vision add-ons), moonshot ideas funded by grants
+
+Fields we can grow into — agriculture, industrial maintenance, hospitality, warehousing, education, construction — anywhere robotics + simple AI can solve a real problem
+
+A flagship idea — a small assistive robot for elderly care that uses AI (like Google's LLM) to remind people to take medicine on time, with simple voice interaction — an example of where our R&D could go next
+
+Long-term direction — building toward more advanced robotics (industrial arms, eventually more complex systems) step by step, funded by our own earnings and grants, not by pretending we're already big
+
+Why this can work — low capital needed to start, real revenue from training/ag-drones from day one, R&D funded by client projects and grants, each step builds toward the next
+
+Style guidance:
+
+Simple slide titles, short bullet points, no walls of text
+
+Use a clean, modern, slightly playful design (not stiff corporate)
+
+Include one slide with a simple visual/diagram of the 70-30-10 model
+
+Keep total slides around 10-12
+
+End with a simple 'what we need next' slide (mentors, small funding, first pilot customers) rather than a hard askand use resionging and why what and how maybe format

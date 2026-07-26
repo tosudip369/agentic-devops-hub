@@ -1,3 +1,9 @@
+﻿# 3.1.0 (2026-07-26)
+
+### Features
+* **activation:** add global alias activation script (ctivate.ps1) for seamless terminal access
+* **file-system:** implement robust ile-handler.ps1 with safe read/write/backup features for agents
+* **docs:** optimize and interconnect system documentation for v3.1.0 release
 # 1.0.0 (2026-07-24)
 
 
@@ -28,3 +34,4 @@
 ### Performance Improvements
 
 * minify system rules to minimize token usage and API costs ([9f185e9](https://github.com/tosudip369/agentic-devops-hub/commit/9f185e95277074f564e351c9c941e9fd6f106819))
+
