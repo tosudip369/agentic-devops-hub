@@ -233,17 +233,14 @@ Your previous fix failed with error: $testError. Try again."
                 $actions = $devFix | ConvertFrom-Json
                 foreach ($action in $actions) {
                     if ($action.action -eq 'mcp_tool') {
-                        Write-Host "   -> 🔌 MCP Tool Triggered: $($action.tool)" -ForegroundColor Yellow
+                        Write-Host "   -> 🔌 True MCP Tool Triggered: $($action.server) / $($action.tool)" -ForegroundColor Yellow
                         $mcpTriggered = $true
-                        if ($action.tool -eq 'search_web') {
-                            # Simulate a web search using Invoke-RestMethod against a free search API or DuckDuckGo HTML
-                            $q = [uri]::EscapeDataString($action.args.query)
-                            $mcpResult = "Simulated Web Search Results for $q: 'Ensure you have the latest version installed, or check StackOverflow for this specific stack trace.'"
-                            $devPrompt += "
+                        $toolArgs = $action.args | ConvertTo-Json -Compress
+                        $mcpResult = & pwsh -NoProfile -NonInteractive -File (Join-Path (Split-Path $MyInvocation.MyCommand.Path) 'mcp-router.ps1') -Action call -ServerName $action.server -ToolName $action.tool -ArgsJson $toolArgs
+                        $devPrompt += "
 
-MCP Tool Result ($($action.tool)): $mcpResult
-Now generate the final JSON action array to fix the code."
-                        }
+MCP Tool Result: $mcpResult
+Generate final JSON."
                     } elseif ($action.action -eq 'write') {
                         Set-Content $action.file -Value $action.content -Encoding UTF8
                     } elseif ($action.action -eq 'command') {
@@ -328,5 +325,6 @@ Now generate the final JSON action array to fix the code."
 
     Write-Host "   ✅ Minion Consensus Reached. Applying Final Multi-File Patch..." -ForegroundColor Green
 }
+
 
 
