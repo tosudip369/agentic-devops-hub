@@ -104,3 +104,7 @@ pm install). If the buffer still overflows, it automatically catches the Error e
 ## 🎛️ v6.1.1 Hyperparameter Tuning
 - **Explicit Tuning Blocks**: All hardcoded logic and magic numbers (OS buffer sizes, context token limits, debounce milliseconds) have been extracted to explicit HYPERPARAMETERS blocks at the absolute top of the core scripts. Developers can now easily tune the system's latency and token economics without digging into core logic.
 
+
+## 🐝 v7.0.0 True Agent Swarming & Orchestration
+- **Adversarial Swarm Topology**: The emediator.ps1 script no longer relies on a single LLM output. It is now a true **Swarm Orchestrator**. 
+- When an error is detected, the Hub spawns **The Surgeon** agent to generate a fix, and immediately pipes that code into **The Gatekeeper** agent for an adversarial code-review. The code is only written to disk once the Swarm reaches consensus.

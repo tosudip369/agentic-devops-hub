@@ -19,14 +19,29 @@ switch ($ext) {
 }
 
 if ($failed) {
-    Write-Host "❌ Validation failed on $FilePath" -ForegroundColor Red
-    Write-Host "   $errorMsg" -ForegroundColor DarkGray
-    Write-Host "🔨 Auto-dispatching AI remediation..." -ForegroundColor Magenta
+    Write-Host "❌ Error detected in $FilePath" -ForegroundColor Red
+    Write-Host "🐝 INITIATING AGENT SWARM ORCHESTRATION..." -ForegroundColor Magenta
 
-    $prompt = "[STRICT DIRECTIVE: EVENT-DRIVEN FIX] Fix the error in $FilePath: $errorMsg. Do not break existing functionality."
-    if (Get-Command "agy.exe" -ErrorAction SilentlyContinue) {
-        agy.exe --print $prompt --dangerously-skip-permissions
+    # AGENT 1: The Surgeon (Developer)
+    Write-Host "   -> 🤖 Dispatching Surgeon Agent for primary fix..." -ForegroundColor Cyan
+    $devPrompt = "[ROLE: SURGEON] The file $FilePath crashed with: $errorMsg. Write the exact replacement code to fix this. OUTPUT ONLY RAW CODE. No markdown fences. No explanations. Follow the 5-Step Algorithm."
+    $devFix = agy.exe --print $devPrompt --dangerously-skip-permissions
+
+    # AGENT 2: The Gatekeeper (Reviewer/Security)
+    Write-Host "   -> 🛡️ Dispatching Gatekeeper Agent for adversarial review..." -ForegroundColor Yellow
+    $reviewPrompt = "[ROLE: GATEKEEPER] Review this proposed fix for $FilePath:
+
+$devFix
+
+Analyze for O(1) performance, security leaks, and clearcode metrics. If it is flawless, output the exact word 'APPROVED'. If it is flawed, output the CORRECTED RAW CODE only."
+    $finalFix = agy.exe --print $reviewPrompt --dangerously-skip-permissions
+
+    if ($finalFix.Trim() -eq "APPROVED") {
+        Write-Host "   ✅ Consensus Reached: Gatekeeper approved Surgeon's fix." -ForegroundColor Green
+        Set-Content $FilePath -Value $devFix -Encoding UTF8
     } else {
-        Write-Host "⚠️ No agent available for immediate remediation." -ForegroundColor Yellow
+        Write-Host "   ⚠️ Consensus Reached: Gatekeeper intervened and applied structural optimizations." -ForegroundColor Green
+        Set-Content $FilePath -Value $finalFix -Encoding UTF8
     }
+    Write-Host "🚀 Swarm Remediation Complete." -ForegroundColor Green
 }

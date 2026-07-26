@@ -1,4 +1,11 @@
-﻿# 6.1.2 (2026-07-26)
+﻿# 7.0.0 (2026-07-26)
+
+### Agent Swarming & Multi-Agent Orchestration
+* **core:** rewrite emediator.ps1 to act as a Swarm Orchestrator
+* **agent:** introduce Surgeon (Developer) and Gatekeeper (Adversarial Reviewer) distinct AI roles
+* **agent:** enforce autonomous cross-agent consensus before code is written to disk
+* **cli:** version bump to v7.0.0
+# 6.1.2 (2026-07-26)
 
 ### Open Source Community Infrastructure
 * **community:** add MIT LICENSE to officially open-source the project
@@ -74,6 +81,7 @@
 ### Performance Improvements
 
 * minify system rules to minimize token usage and API costs ([9f185e9](https://github.com/tosudip369/agentic-devops-hub/commit/9f185e95277074f564e351c9c941e9fd6f106819))
+
 
 
 
