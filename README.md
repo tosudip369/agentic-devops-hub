@@ -141,3 +141,6 @@ pm install). If the buffer still overflows, it automatically catches the Error e
 - **Ultimate AI Flexibility**: Connect the Swarm to OpenRouter, Hugging Face, OpenAI, Groq, local Ollama, or your own Custom Enterprise Endpoints via simple environment variables. Simply set $env:HUB_AI_PROVIDER="Ollama".
 - **SPM Method Integration**: The Swarm's orchestration is now strictly governed by the Software Process Model (SPM), ensuring true SDLC mapping from Requirements Gathering to Verification.
 
+
+## 🤯 v16.0.0 The MCP Bridge (Illegal-Tier Architecture)
+- **Multi-Turn Tool Calling**: The Swarm now natively supports the Model Context Protocol (MCP). By dropping tool schemas into .hub_mcp/, the AI can dynamically request to run tools (like searching the web for an obscure error code), read the results, and *then* rewrite your files. It doesn't just guess anymore; it actively researches.

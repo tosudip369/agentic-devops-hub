@@ -1,0 +1,7 @@
+﻿{
+    "name": "search_web",
+    "description": "Searches the internet for solutions to obscure crashes or missing dependencies.",
+    "parameters": {
+        "query": "The search term, e.g., the exact error code or stack trace."
+    }
+}

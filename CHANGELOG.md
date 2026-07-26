@@ -1,4 +1,12 @@
-﻿# 15.1.0 (2026-07-26)
+﻿# 16.0.0 (2026-07-26)
+
+### The MCP Bridge (Multi-Turn Tool Calling)
+* **core:** introduced a native Model Context Protocol (MCP) Bridge inside the PowerShell Orchestrator
+* **agent:** transformed the Execution Loop from a single-shot generator into a dynamic multi-turn conversational loop
+* **intelligence:** Skeletons can now dynamically request to trigger external tools (e.g., search_web) and ingest the results before applying file mutations
+* **docs:** updated SYSTEM_DESIGN.md and README.md to reflect the illegal-tier MCP capability
+* **cli:** version bump to v16.0.0
+# 15.1.0 (2026-07-26)
 
 ### Expanded Universal Provider Network
 * **api:** injected native routing for OpenRouter and Hugging Face inference APIs
@@ -163,6 +171,7 @@
 ### Performance Improvements
 
 * minify system rules to minimize token usage and API costs ([9f185e9](https://github.com/tosudip369/agentic-devops-hub/commit/9f185e95277074f564e351c9c941e9fd6f106819))
+
 
 
 

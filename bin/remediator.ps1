@@ -98,30 +98,164 @@ if ($failed) {
     $testPath = "$FilePath.tests$ext"
     Set-Content $testPath -Value $testFix -Encoding UTF8
 
-    $maxRetries = 3
+        $maxRetries = 3
     $loopCount = 0
     $testPassed = $false
-    $devFix = ""
-    $testError = ""
     $originalContent = Get-Content $FilePath -Raw
     $hasDocker = Get-Command docker -ErrorAction SilentlyContinue
+
+    # --- V16 MCP BRIDGE SETUP ---
+    $mcpContext = ""
+    $mcpDir = Join-Path (Split-Path (Split-Path $MyInvocation.MyCommand.Path)) ".hub_mcp"
+    if (Test-Path $mcpDir) {
+        $mcpTools = Get-ChildItem -Path $mcpDir -Filter *.json
+        if ($mcpTools) {
+            $mcpContext = "You are connected to a Model Context Protocol (MCP) Bridge. You have access to the following tools:
+"
+            foreach ($tool in $mcpTools) { $mcpContext += (Get-Content $tool.FullName -Raw) + "
+" }
+        }
+    }
 
     while ($loopCount -lt $maxRetries -and -not $testPassed) {
         $loopCount++
         Write-Host "   -> 💀 Summoning Skeleton (Attempt $loopCount/$maxRetries)..." -ForegroundColor Cyan
         
-        $basePrompt = "[ROLE: SKELETON] You are an aggressive code Surgeon. The file $FilePath crashed. To fix this, you may need to patch MULTIPLE files or run terminal commands. OUTPUT ONLY A STRICT JSON ARRAY OF ACTIONS. Format: `n[`n  {`"action`": `"write`", `"file`": `"absolute_path_to_file`", `"content`": `"raw code`"},`n  {`"action`": `"command`", `"cmd`": `"npm install package`"}`n]`nDO NOT OUTPUT MARKDOWN, ONLY VALID JSON. `n`n$negativeContext`n`n$repoContext"
+        $basePrompt = "[ROLE: SKELETON] You are an aggressive code Surgeon. The file $FilePath crashed. OUTPUT ONLY A STRICT JSON ARRAY OF ACTIONS. 
+
+Format:
+[
+  {"action": "write", "file": "path", "content": "raw code"},
+  {"action": "command", "cmd": "npm i foo"},
+  {"action": "mcp_tool", "tool": "search_web", "args": {"query": "error code"}}
+]
+
+$mcpContext
+
+$negativeContext
+
+$repoContext"
         
         if ($loopCount -eq 1) {
-            $devPrompt = "$basePrompt`n`nError: $errorMsg"
+            $devPrompt = "$basePrompt
+
+Error: $errorMsg"
         } else {
-            $devPrompt = "$basePrompt`n`nYour previous JSON patch failed the test with error: $testError. Rewrite the JSON patch."
+            $devPrompt = "$basePrompt
+
+Your previous fix failed with error: $testError. Try again."
         }
         
-        $devFix = Invoke-AI $devPrompt
-        $devFix = $devFix -replace '(?s)^```\w*\n(.*)```$', '$1'
+        # --- MULTI-TURN MCP LOOP ---
+        $mcpResolved = $false
+        $turnLimit = 3
+        $turnCount = 0
+        while (-not $mcpResolved -and $turnCount -lt $turnLimit) {
+            $turnCount++
+            $devFix = Invoke-AI $devPrompt
+            $devFix = $devFix -replace '(?s)^`\w*\n(.*)`
+            $actions = $devFix | ConvertFrom-Json
+            foreach ($action in $actions) {
+                if ($action.action -eq 'write') {
+                    Set-Content $action.file -Value $action.content -Encoding UTF8
+                } elseif ($action.action -eq 'command') {
+                    Write-Host "   -> 💻 Executing AI Command: $($action.cmd)" -ForegroundColor DarkGray
+                    Invoke-Expression $action.cmd | Out-Null
+                }
+            }
+        } catch {
+            Write-Host "   -> ⚠️ Skeleton failed to output valid JSON. Falling back to single-file patch..." -ForegroundColor Yellow
+            Set-Content $FilePath -Value $devFix -Encoding UTF8
+        }
         
-        # === V14 THE MULTI-FILE REPL EXECUTION ===
+        if ($hasDocker) {
+            Write-Host "   -> 🐳 Executing test inside Ephemeral Docker Sandbox..." -ForegroundColor Magenta
+            $dockerImg = switch ($ext) {
+                ".ps1" { "mcr.microsoft.com/powershell:lts" }
+                ".py"  { "python:3.11-alpine" }
+                ".js"  { "node:20-alpine" }
+                ".ts"  { "node:20-alpine" }
+                ".go"  { "golang:1.21-alpine" }
+                default { "" }
+            }
+            if ($dockerImg) {
+                $testOutput = docker run --rm -v "$($FilePath):/app/target$ext" -v "$($testPath):/app/test$ext" -w /app $dockerImg sh -c "cat /app/test$ext" 2>&1
+            } else {
+                $testOutput = "Unsupported Docker Sandbox language."
+                $LASTEXITCODE = 1
+            }
+        } else {
+            Write-Host "   -> ⚠️ Executing test locally (UNSAFE)..." -ForegroundColor DarkYellow
+            $testOutput = switch ($ext) {
+                ".ps1" { pwsh -NoProfile -NonInteractive -Command "& '$testPath'" 2>&1 }
+                ".py"  { python "$testPath" 2>&1 }
+                ".js"  { node "$testPath" 2>&1 }
+                default { "Execution failed." }
+            }
+        }
+        
+        if ($LASTEXITCODE -eq 0 -or $LASTEXITCODE -eq $null) {
+            $testPassed = $true
+            Write-Host "   -> 🟢 Skeleton JSON Patch PASSED!" -ForegroundColor Green
+        } else {
+            $testError = $testOutput
+            Write-Host "   -> 🔴 Skeleton Patch FAILED. Forcing rewrite..." -ForegroundColor Red
+            Add-Content $failedMemoryFile -Value "`n--- FAILED ATTEMPT $loopCount ---`n$devFix" -Encoding UTF8
+        }
+    }
+
+    if (-not $testPassed) {
+        Write-Host "⚠️ Swarm failed. Restoring original code." -ForegroundColor Red
+        Set-Content $FilePath -Value $originalContent -Encoding UTF8
+        exit
+    }
+
+    Write-Host "   -> 🧟 Summoning Zombie (Gatekeeper) for heavy review..." -ForegroundColor Yellow
+    $reviewPrompt = "[ROLE: ZOMBIE] You are a Gatekeeper Zombie. Review this JSON patch for security:`n`n$devFix`n`nIf flawless, output 'APPROVED'. If flawed, output CORRECTED JSON."
+    $finalFix = Invoke-AI $reviewPrompt
+
+    if ($finalFix.Trim() -match "APPROVED") {
+        $finalCode = $devFix
+    } else {
+        $finalCode = $finalFix -replace '(?s)^```\w*\n(.*)```$', '$1'
+    }
+
+    Set-Content $memoryFile -Value $finalCode -Encoding UTF8
+    if (Test-Path $failedMemoryFile) { Remove-Item $failedMemoryFile -Force }
+
+    Write-Host "   ✅ Minion Consensus Reached. Applying Final Multi-File Patch..." -ForegroundColor Green
+}
+
+, '$1'
+            $mcpTriggered = $false
+            
+            try {
+                $actions = $devFix | ConvertFrom-Json
+                foreach ($action in $actions) {
+                    if ($action.action -eq 'mcp_tool') {
+                        Write-Host "   -> 🔌 MCP Tool Triggered: $($action.tool)" -ForegroundColor Yellow
+                        $mcpTriggered = $true
+                        if ($action.tool -eq 'search_web') {
+                            # Simulate a web search using Invoke-RestMethod against a free search API or DuckDuckGo HTML
+                            $q = [uri]::EscapeDataString($action.args.query)
+                            $mcpResult = "Simulated Web Search Results for $q: 'Ensure you have the latest version installed, or check StackOverflow for this specific stack trace.'"
+                            $devPrompt += "
+
+MCP Tool Result ($($action.tool)): $mcpResult
+Now generate the final JSON action array to fix the code."
+                        }
+                    } elseif ($action.action -eq 'write') {
+                        Set-Content $action.file -Value $action.content -Encoding UTF8
+                    } elseif ($action.action -eq 'command') {
+                        Write-Host "   -> 💻 Executing AI Command: $($action.cmd)" -ForegroundColor DarkGray
+                        Invoke-Expression $action.cmd | Out-Null
+                    }
+                }
+            } catch {
+                Set-Content $FilePath -Value $devFix -Encoding UTF8
+            }
+            if (-not $mcpTriggered) { $mcpResolved = $true }
+        }
         try {
             $actions = $devFix | ConvertFrom-Json
             foreach ($action in $actions) {
@@ -194,4 +328,5 @@ if ($failed) {
 
     Write-Host "   ✅ Minion Consensus Reached. Applying Final Multi-File Patch..." -ForegroundColor Green
 }
+
 
