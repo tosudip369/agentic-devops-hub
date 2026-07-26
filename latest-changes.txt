@@ -1,0 +1,5 @@
+﻿v15.1.0 Updates:
+- Added OpenRouter API Support
+- Added Hugging Face API Support
+- Added Custom Enterprise API Endpoints
+- Fully integrated SPM Framework
