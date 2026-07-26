@@ -1,4 +1,11 @@
-﻿# 6.1.1 (2026-07-26)
+﻿# 6.1.2 (2026-07-26)
+
+### Open Source Community Infrastructure
+* **community:** add MIT LICENSE to officially open-source the project
+* **community:** create CONTRIBUTING.md enforcing the 5-Step Algorithm and architecture rules
+* **community:** establish CODE_OF_CONDUCT.md for professional standards
+* **github:** implement Pull Request and Issue templates to standardize incoming contributions
+# 6.1.1 (2026-07-26)
 
 ### Polish & Documentation
 * **docs:** purge all legacy bash references across the entire repository
@@ -67,6 +74,7 @@
 ### Performance Improvements
 
 * minify system rules to minimize token usage and API costs ([9f185e9](https://github.com/tosudip369/agentic-devops-hub/commit/9f185e95277074f564e351c9c941e9fd6f106819))
+
 
 
 
