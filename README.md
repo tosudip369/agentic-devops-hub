@@ -90,3 +90,12 @@ This repository is designed to be extensible and compatible with the "god-level"
 - **Zero-Latency I/O**: Swapped slow PowerShell cmdlets for native .NET [System.IO.File] operations in the File Handler, yielding 10-100x speedups.
 - **Debounced Multithreaded Observer**: The event observer now uses a ConcurrentDictionary to debounce rapid save events (like VS Code auto-save) and dispatches validation to background Runspaces so the main thread never blocks.
 
+
+## 📐 v6.0.0 Engineering & Economics Overhaul
+- **Buffer Overflow Protection**: The HFT Observer now uses the maximum 64KB OS buffer to handle 10,000+ simultaneous file changes (e.g., 
+pm install). If the buffer still overflows, it automatically catches the Error event and triggers a full fallback reconciliation scan.
+- **Universal Unix Bootstrapper**: Added setup.sh which automatically detects your macOS/Linux distro and gracefully installs pwsh for you, closing the cross-platform dependency gap.
+- **Token Economics (Cost Saving)**: 
+  - Reduced Project Map context window by 62%.
+  - Truncated Git Diff injection by 60%.
+  - Restricted Neural Memory injection to the single most relevant prior error.

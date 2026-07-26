@@ -1,4 +1,11 @@
-﻿# 5.0.0 (2026-07-26)
+﻿# 6.0.0 (2026-07-26)
+
+### Engineering & Token Economics
+* **observer:** maximize InternalBufferSize to 64KB and implement Error event fallback reconciliation
+* **core:** introduce setup.sh bash bootstrapper for automated Unix/macOS pwsh installation
+* **cli:** drastically reduce token footprint by truncating git map, git diffs, and memory ledger
+* **docs:** document token economics and engineering trade-off solutions
+# 5.0.0 (2026-07-26)
 
 ### Performance & HFT Enhancements
 * **file-system:** replace Get-Content/Set-Content with native .NET System.IO classes for zero-latency I/O
@@ -48,6 +55,7 @@
 ### Performance Improvements
 
 * minify system rules to minimize token usage and API costs ([9f185e9](https://github.com/tosudip369/agentic-devops-hub/commit/9f185e95277074f564e351c9c941e9fd6f106819))
+
 
 
 

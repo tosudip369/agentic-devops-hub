@@ -35,3 +35,4 @@ $action = {
 Register-ObjectEvent $watcher "Changed" -Action $action | Out-Null
 
 while ($true) { Start-Sleep -Milliseconds 100 }
+

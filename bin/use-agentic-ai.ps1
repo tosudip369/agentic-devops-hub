@@ -1,5 +1,5 @@
 ﻿# ==============================================================================
-# use-agentic-ai v5.0.0 — The Autonomous Cutting-Edge Builder
+# use-agentic-ai v6.0.0 — The Autonomous Cutting-Edge Builder
 # ==============================================================================
 # Modes: build | fix | auto | observe | status
 # Auto-detects agents: agy, claude, codex, openclaw, hermes, ollama
@@ -26,7 +26,7 @@ $RemediateScript = Join-Path (Join-Path $HubRoot "bin") "remediator.ps1"
 # ── HELP ──────────────────────────────────────────────────────────────────────
 if ([string]::IsNullOrWhiteSpace($UserPrompt) -and $Mode -eq "build") {
     Write-Host ""
-    Write-Host "  use-agentic-ai v5.0.0 — The Autonomous Builder" -ForegroundColor Cyan
+    Write-Host "  use-agentic-ai v6.0.0 — The Autonomous Builder" -ForegroundColor Cyan
     Write-Host "  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━" -ForegroundColor DarkGray
     Write-Host ""
     Write-Host "  USAGE:" -ForegroundColor Yellow
@@ -60,7 +60,7 @@ if ($Mode -eq "link") {
 if ($Mode -eq "status") {
     Write-Host ""
     Write-Host "  ┌─────────────────────────────────────┐" -ForegroundColor Cyan
-    Write-Host "  │  🧠 Agentic DevOps Hub v5.0.0         │" -ForegroundColor Cyan
+    Write-Host "  │  🧠 Agentic DevOps Hub v6.0.0         │" -ForegroundColor Cyan
     Write-Host "  └─────────────────────────────────────┘" -ForegroundColor Cyan
     Write-Host ""
 
@@ -199,7 +199,7 @@ if ($Mode -eq "auto") {
 
 # 1. TOKEN-OPTIMIZED RULES + 5-STEP ALGORITHM
 $BaseRules = @"
-[DIR:v5.0.0] Arch:AgenticDevOpsHub
+[DIR:v6.0.0] Arch:AgenticDevOpsHub
 Code: O(1)/O(N) pref. Max 2-lvl nest. Single-resp fns. Self-doc vars.
 Flow: Ephemeral branches only. Write tests. Pass strict CI/CD.
 Subagents: Auto-spawn subagents (security-auditor, code-reviewer) for complex/parallel tasks.
@@ -228,14 +228,14 @@ if (Get-Command "git" -ErrorAction SilentlyContinue) {
             $GitContext += "`n`n[GITHUB REPOSITORY]`nRepo: $RemoteUrl"
         }
         
-        $ProjectMap = (git ls-files | Select-Object -First 40) -join "`n"
+        $ProjectMap = (git ls-files | Select-Object -First 15) -join "`n"
         if (-not [string]::IsNullOrWhiteSpace($ProjectMap)) {
             $GitContext += "`n`n[PROJECT ARCHITECTURE MAP]`n$ProjectMap"
         }
 
         $GitStatus = git status --short
         if (-not [string]::IsNullOrWhiteSpace($GitStatus)) {
-            $GitDiff = (git diff | Select-Object -First 50) -join "`n"
+            $GitDiff = (git diff | Select-Object -First 20) -join "`n"
             $GitContext += "`n`n[MODIFIED FILES]`n$GitStatus`n`n[RECENT CODE CHANGES]`n$GitDiff"
         }
     }
@@ -257,7 +257,7 @@ if (Test-Path $LedgerPath) {
 $FullPrompt = "$BaseRules $DynamicRules $GitContext $MemoryContext`n`n[USER REQUEST]`n$UserPrompt"
 
 Write-Host ""
-Write-Host "  🧠 [use-agentic-ai v5.0.0] Dispatching..." -ForegroundColor Cyan
+Write-Host "  🧠 [use-agentic-ai v6.0.0] Dispatching..." -ForegroundColor Cyan
 if ($DynamicRules) { Write-Host "   → 📄 Project rules injected" -ForegroundColor DarkGray }
 if ($GitContext) { Write-Host "   → 🌿 Git context injected" -ForegroundColor DarkGray }
 Write-Host ""
@@ -305,6 +305,7 @@ if (-not $dispatched) {
     Write-Host $FullPrompt
     Write-Host "  ----------------------------" -ForegroundColor DarkGray
 }
+
 
 
 
