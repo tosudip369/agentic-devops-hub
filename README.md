@@ -108,3 +108,7 @@ pm install). If the buffer still overflows, it automatically catches the Error e
 ## 🐝 v7.0.0 True Agent Swarming & Orchestration
 - **Adversarial Swarm Topology**: The emediator.ps1 script no longer relies on a single LLM output. It is now a true **Swarm Orchestrator**. 
 - When an error is detected, the Hub spawns **The Surgeon** agent to generate a fix, and immediately pipes that code into **The Gatekeeper** agent for an adversarial code-review. The code is only written to disk once the Swarm reaches consensus.
+
+## 🧠 v11.0.0 Neural Pattern Integrity
+- **Fuzzy Hashing**: The Memory Ledger now strips ephemeral data (line numbers, file paths) to generate stable Semantic Signatures.
+- **Self-Healing Ledger**: Added in\integrity-check.ps1 to automatically purge corrupted memory nodes.

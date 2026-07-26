@@ -1,6 +1,6 @@
-﻿# 🏗️ Agentic DevOps Hub: System Architecture (V10 Path of Exile Minion Swarm)
+﻿# 🏗️ Agentic DevOps Hub: System Architecture (V11 Path of Exile Minion Swarm)
 
-The Hub is a hyper-optimized, event-driven Agentic Operating System designed for zero-latency, cross-platform remediation, and autonomous swarm orchestration. It operates on the **V10 International Benchmark: The Execution Loop** standard.
+The Hub is a hyper-optimized, event-driven Agentic Operating System designed for zero-latency, cross-platform remediation, and autonomous swarm orchestration. It operates on the **V11 Neural Pattern Integrity Architecture** standard.
 
 ## 1. ⚡ Event-Driven Observer (HFT-Speed)
 Instead of polling file systems on a timer, the Hub uses .NET native System.IO.FileSystemWatcher to detect crashes and errors instantly.
@@ -10,7 +10,8 @@ pm install).
 
 ## 2. 🧠 Neural Memory Ledger (O(1) RAG)
 The Swarm is connected to a long-term file-based Neural Memory Ledger (.hub_memory/).
-- When a file crashes, the Orchestrator generates a deterministic **SHA256 Cryptographic Hash** of the error stack trace.
+- **Fuzzy Semantic Hashing**: The Orchestrator strips out line numbers, file paths, and memory addresses using Regex *before* hashing the error stack trace. This creates a stable **Semantic Signature**. If the same logical bug happens on a different line in a different file, the Swarm instantly recognizes it.
+- **System Integrity Sweep**: A dedicated integrity-check.ps1 script routinely scrubs the memory ledger to ensure LLM markdown corruptions never persist.
 - It queries the memory ledger. If the hash exists, it instantly pulls the verified solution in **O(1) latency** without ever waking up the AI Agents, saving massive API token costs.
 
 ## 3. 🐝 The Path of Exile Minion Swarm (Necromancer)
@@ -33,5 +34,6 @@ This injects the project path into the Hub's projects.conf registry, placing it 
 
 ---
 *Built via The 5-Step Engineering Algorithm.*
+
 
 

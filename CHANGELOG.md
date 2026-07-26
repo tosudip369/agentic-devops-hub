@@ -1,4 +1,11 @@
-﻿# 10.0.0 (2026-07-26)
+﻿# 11.0.0 (2026-07-26)
+
+### Neural Pattern Integrity & Fuzzy Hashing
+* **core:** upgraded O(1) Memory Ledger to use Fuzzy Semantic Hashing (stripping line numbers and paths) for generalized bug matching
+* **core:** introduced integrity-check.ps1 to scrub the Neural Ledger for syntax corruptions
+* **docs:** optimized SYSTEM_DESIGN.md and README.md to reflect V11 Neural Integrity upgrades
+* **cli:** version bump to v11.0.0
+# 10.0.0 (2026-07-26)
 
 ### The Execution Loop (Autonomous Benchmarking)
 * **core:** introduced The Execution Loop, transitioning the system from a DAG to a self-correcting autonomous cycle
@@ -105,6 +112,7 @@
 ### Performance Improvements
 
 * minify system rules to minimize token usage and API costs ([9f185e9](https://github.com/tosudip369/agentic-devops-hub/commit/9f185e95277074f564e351c9c941e9fd6f106819))
+
 
 
 
