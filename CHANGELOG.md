@@ -1,4 +1,10 @@
-﻿# 6.0.0 (2026-07-26)
+﻿# 6.1.0 (2026-07-26)
+
+### Refactoring & Developer Experience
+* **core:** extract magic numbers into explicit hyperparameter tuning blocks across all scripts
+* **docs:** document hyperparameter tuning block availability for system optimization
+* **cli:** version bump to v6.1.0
+# 6.0.0 (2026-07-26)
 
 ### Engineering & Token Economics
 * **observer:** maximize InternalBufferSize to 64KB and implement Error event fallback reconciliation
@@ -55,6 +61,8 @@
 ### Performance Improvements
 
 * minify system rules to minimize token usage and API costs ([9f185e9](https://github.com/tosudip369/agentic-devops-hub/commit/9f185e95277074f564e351c9c941e9fd6f106819))
+
+
 
 
 

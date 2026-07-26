@@ -20,3 +20,4 @@ This document outlines the core tool stack and the roadmap for maintaining a god
 5. **Scaling (The Captain's Mindset)**: As volume increases, utilize `treehouse` for parallel worktrees and `firstmate` to oversee multiple concurrent agents, shifting your focus from "writing code" to "product strategy".
 
 
+
