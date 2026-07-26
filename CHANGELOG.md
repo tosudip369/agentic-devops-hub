@@ -1,4 +1,11 @@
-﻿# 13.0.0 (2026-07-26)
+# [12.1.0](https://github.com/tosudip369/agentic-devops-hub/compare/v12.0.1...v12.1.0) (2026-07-26)
+
+
+### Features
+
+* release v13.0.0 The 10/10 Apex Engine (Docker, RAG, Negative Memory) ([011e318](https://github.com/tosudip369/agentic-devops-hub/commit/011e3183249981af04df85939925a2e6640cf2b6))
+
+# 13.0.0 (2026-07-26)
 
 ### The 10/10 Apex Architecture
 * **security:** implemented The Docker Matrix to run The Execution Loop inside isolated, ephemeral Docker containers
@@ -134,4 +141,3 @@
 ### Performance Improvements
 
 * minify system rules to minimize token usage and API costs ([9f185e9](https://github.com/tosudip369/agentic-devops-hub/commit/9f185e95277074f564e351c9c941e9fd6f106819))
-
