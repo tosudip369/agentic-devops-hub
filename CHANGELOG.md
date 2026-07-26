@@ -1,4 +1,11 @@
-﻿# 15.0.0 (2026-07-26)
+﻿# 15.1.0 (2026-07-26)
+
+### Expanded Universal Provider Network
+* **api:** injected native routing for OpenRouter and Hugging Face inference APIs
+* **api:** added Custom provider mode allowing users to pass $env:HUB_CUSTOM_ENDPOINT for corporate firewalls
+* **docs:** updated README and SYSTEM_DESIGN to reflect total provider democratization
+* **cli:** version bump to v15.1.0
+# 15.0.0 (2026-07-26)
 
 ### The SPM Universal Architecture (Accessibility & Free Tier)
 * **core:** completely rewrote use-agentic-ai.ps1 into a universal CLI provider routing to Ollama, Groq, OpenAI, or Antigravity
@@ -156,5 +163,6 @@
 ### Performance Improvements
 
 * minify system rules to minimize token usage and API costs ([9f185e9](https://github.com/tosudip369/agentic-devops-hub/commit/9f185e95277074f564e351c9c941e9fd6f106819))
+
 
 

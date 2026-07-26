@@ -138,5 +138,6 @@ pm install). If the buffer still overflows, it automatically catches the Error e
 - **Shattering the Bottleneck**: The Swarm is no longer restricted to fixing the single file that crashed. The AI outputs a JSON array, allowing it to autonomously edit multiple files simultaneously and run terminal commands to fix complex, multi-file architectural bugs.
 
 ## 🚀 v15.0.0 The SPM Universal Architecture (100% Free Tier Compatible)
-- **Ollama & Free Tier Support**: You can now run the entire Agentic Swarm locally for free using Ollama, or connect it to OpenAI/Groq via API keys. Simply set $env:HUB_AI_PROVIDER="Ollama".
+- **Ultimate AI Flexibility**: Connect the Swarm to OpenRouter, Hugging Face, OpenAI, Groq, local Ollama, or your own Custom Enterprise Endpoints via simple environment variables. Simply set $env:HUB_AI_PROVIDER="Ollama".
 - **SPM Method Integration**: The Swarm's orchestration is now strictly governed by the Software Process Model (SPM), ensuring true SDLC mapping from Requirements Gathering to Verification.
+
