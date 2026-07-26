@@ -1,4 +1,4 @@
-param([Parameter(Mandatory=$true)][string]$FilePath)
+﻿param([Parameter(Mandatory=$true)][string]$FilePath)
 $ext = [System.IO.Path]::GetExtension($FilePath)
 $errorMsg = ""
 $failed = $false
@@ -63,7 +63,15 @@ if ($failed) {
         Write-Host "🧠 [Negative Memory] Retrieved past failures." -ForegroundColor DarkYellow
     }
 
-    Write-Host "☠️ INITIATING PATH OF EXILE MINION SWARM (V14 MULTI-FILE REPL)..." -ForegroundColor Magenta
+        $provider = if ($env:HUB_AI_PROVIDER) { $env:HUB_AI_PROVIDER } else { "Antigravity" }
+    $model = if ($env:HUB_AI_MODEL) { $env:HUB_AI_MODEL } else { "llama3" }
+    $aiWrapper = Join-Path (Split-Path $MyInvocation.MyCommand.Path) "use-agentic-ai.ps1"
+    
+    function Invoke-AI ([string]$promptText) {
+        return & pwsh -NoProfile -NonInteractive -File $aiWrapper -Prompt $promptText -Provider $provider -Model $model
+    }
+
+    Write-Host "☠️ INITIATING PATH OF EXILE MINION SWARM (V15 SPM ARCHITECTURE) VIA $provider..." -ForegroundColor Magenta
 
     Write-Host "   -> 👻 Summoning Spectres to scout the repository..." -ForegroundColor DarkCyan
     $repoContext = ""
@@ -85,7 +93,7 @@ if ($failed) {
 
     Write-Host "   -> 🪨 Summoning Golem (Test Engineer)..." -ForegroundColor Blue
     $testPrompt = "[ROLE: GOLEM] Write a test script to verify the fix for $errorMsg in $FilePath. OUTPUT RAW CODE ONLY."
-    $testFix = agy.exe --print $testPrompt --dangerously-skip-permissions
+    $testFix = Invoke-AI $testPrompt
     $testFix = $testFix -replace '(?s)^```\w*\n(.*)```$', '$1'
     $testPath = "$FilePath.tests$ext"
     Set-Content $testPath -Value $testFix -Encoding UTF8
@@ -110,7 +118,7 @@ if ($failed) {
             $devPrompt = "$basePrompt`n`nYour previous JSON patch failed the test with error: $testError. Rewrite the JSON patch."
         }
         
-        $devFix = agy.exe --print $devPrompt --dangerously-skip-permissions
+        $devFix = Invoke-AI $devPrompt
         $devFix = $devFix -replace '(?s)^```\w*\n(.*)```$', '$1'
         
         # === V14 THE MULTI-FILE REPL EXECUTION ===
@@ -173,7 +181,7 @@ if ($failed) {
 
     Write-Host "   -> 🧟 Summoning Zombie (Gatekeeper) for heavy review..." -ForegroundColor Yellow
     $reviewPrompt = "[ROLE: ZOMBIE] You are a Gatekeeper Zombie. Review this JSON patch for security:`n`n$devFix`n`nIf flawless, output 'APPROVED'. If flawed, output CORRECTED JSON."
-    $finalFix = agy.exe --print $reviewPrompt --dangerously-skip-permissions
+    $finalFix = Invoke-AI $reviewPrompt
 
     if ($finalFix.Trim() -match "APPROVED") {
         $finalCode = $devFix
@@ -186,3 +194,4 @@ if ($failed) {
 
     Write-Host "   ✅ Minion Consensus Reached. Applying Final Multi-File Patch..." -ForegroundColor Green
 }
+

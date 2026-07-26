@@ -1,4 +1,12 @@
-﻿# 14.0.0 (2026-07-26)
+﻿# 15.0.0 (2026-07-26)
+
+### The SPM Universal Architecture (Accessibility & Free Tier)
+* **core:** completely rewrote use-agentic-ai.ps1 into a universal CLI provider routing to Ollama, Groq, OpenAI, or Antigravity
+* **agent:** abstracted all LLM calls in emediator.ps1 to use environmental variables (HUB_AI_PROVIDER, HUB_API_KEY) for 100% free-tier accessibility
+* **architecture:** integrated the formal SPM (Software Process Model) framework across all agent prompts to enforce strict SDLC governance
+* **docs:** overhauled SYSTEM_DESIGN.md to document the Universal API and SPM mapping
+* **cli:** version bump to v15.0.0
+# 14.0.0 (2026-07-26)
 
 ### The Multi-File REPL (Breaking the 10.0 Bottleneck)
 * **core:** completely rewrote the LLM parser to expect and execute a JSON array of actions (write, command), unlocking the ability to edit multiple files simultaneously
@@ -148,4 +156,5 @@
 ### Performance Improvements
 
 * minify system rules to minimize token usage and API costs ([9f185e9](https://github.com/tosudip369/agentic-devops-hub/commit/9f185e95277074f564e351c9c941e9fd6f106819))
+
 
