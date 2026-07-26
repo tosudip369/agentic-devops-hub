@@ -1,4 +1,4 @@
----
+﻿---
 name: "Agentic Issue Triage & Self-Healing"
 on:
   issues:
@@ -32,3 +32,4 @@ Act as a first-responder for any new issues opened in the repository. Provide au
 ## Constraints
 - Do not close the issue.
 - Keep the tone helpful, nautical, and robotic.
+
