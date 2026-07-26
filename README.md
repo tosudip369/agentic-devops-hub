@@ -91,7 +91,7 @@ This repository is designed to be extensible and compatible with the "god-level"
 - **Debounced Multithreaded Observer**: The event observer now uses a ConcurrentDictionary to debounce rapid save events (like VS Code auto-save) and dispatches validation to background Runspaces so the main thread never blocks.
 
 
-## 📐 v6.1.0 Engineering & Economics Overhaul
+## 📐 v6.1.1 Engineering & Economics Overhaul
 - **Buffer Overflow Protection**: The HFT Observer now uses the maximum 64KB OS buffer to handle 10,000+ simultaneous file changes (e.g., 
 pm install). If the buffer still overflows, it automatically catches the Error event and triggers a full fallback reconciliation scan.
 - **Universal Unix Bootstrapper**: Added setup.sh which automatically detects your macOS/Linux distro and gracefully installs pwsh for you, closing the cross-platform dependency gap.
@@ -101,5 +101,6 @@ pm install). If the buffer still overflows, it automatically catches the Error e
   - Restricted Neural Memory injection to the single most relevant prior error.
 
 
-## 🎛️ v6.1.0 Hyperparameter Tuning
+## 🎛️ v6.1.1 Hyperparameter Tuning
 - **Explicit Tuning Blocks**: All hardcoded logic and magic numbers (OS buffer sizes, context token limits, debounce milliseconds) have been extracted to explicit HYPERPARAMETERS blocks at the absolute top of the core scripts. Developers can now easily tune the system's latency and token economics without digging into core logic.
+

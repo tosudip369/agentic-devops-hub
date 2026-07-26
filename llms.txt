@@ -1,4 +1,4 @@
-# Agentic DevOps Hub - LLM Context
+﻿# Agentic DevOps Hub - LLM Context
 
 > **Attention AI / LLM / Agent:** If you are reading this file, you have been pointed to the `agentic-devops-hub` repository.
 
@@ -10,3 +10,9 @@ Whenever a user prompts you with the keyword `use-agentic-ai`, you MUST activate
 4. **Adversarial Confidence:** Ensure your code can pass a strict GitHub Actions validation pipeline (`no-mistakes`). If you are unsure, do not write the code. Ask the human.
 
 You are the engine of a God-Level orchestrator. Execute flawlessly.
+
+
+## Arch Principles:
+1. Event-Driven (No Polling)
+2. Tuning via HYPERPARAMETERS
+3. Native cross-platform via pwsh
