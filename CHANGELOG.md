@@ -1,4 +1,11 @@
-﻿# 12.0.0 (2026-07-26)
+## [12.0.1](https://github.com/tosudip369/agentic-devops-hub/compare/v12.0.0...v12.0.1) (2026-07-26)
+
+
+### Bug Fixes
+
+* restore V11 Fuzzy Hashing and V12 Language Switch due to string replace failure ([55f7f31](https://github.com/tosudip369/agentic-devops-hub/commit/55f7f318e5eecfc42b96dcb9d366b0d3ef26560f))
+
+# 12.0.0 (2026-07-26)
 
 ### The Universal Language Engine
 * **core:** injected native syntax checking for Node.js (.js), TypeScript (.ts), and Golang (.go) into the Orchestrator
@@ -119,22 +126,3 @@
 ### Performance Improvements
 
 * minify system rules to minimize token usage and API costs ([9f185e9](https://github.com/tosudip369/agentic-devops-hub/commit/9f185e95277074f564e351c9c941e9fd6f106819))
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
